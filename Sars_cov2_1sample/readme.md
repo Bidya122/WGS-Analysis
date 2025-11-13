@@ -12,6 +12,17 @@ The main goal of this project was to learn and demonstrate a complete WGS pipeli
 #to download the file directly
 wget -r -nH --cut-dirs=5 -A "*.fastq.gz" ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR131/025/SRR13182925/
 ```
+(OR)
+```bash
+# Install SRA Toolkit 
+sudo apt install sra-toolkit
+
+# Download and convert to FASTQ
+prefetch SRR13182925
+fasterq-dump SRR13182925
+
+```
+
 
 - **Reference**: NCBI > Assembly database> search for GCF_009858895.2 > click FTP to download the files
 <img width="822" height="635" alt="image" src="https://github.com/user-attachments/assets/fb784126-e9dd-4e71-b4aa-46fc5075dfd2" />  
