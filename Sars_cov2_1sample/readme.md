@@ -94,3 +94,5 @@ source ~/.bashrc
 ```bash
 conda –version
 ```
+# TOOLS INSTALLATION
+## FASTQC
