@@ -92,7 +92,117 @@ echo 'export PATH=$HOME/miniconda3/bin:$PATH' >> ~/.bashrc
 source ~/.bashrc
 ```
 ```bash
-conda –version
+conda --version
 ```
 # TOOLS INSTALLATION
-## FASTQC
+## FASTQC   
+```bash
+sudo apt install fastqc -y
+```
+```bash
+fastqc --version
+```
+## TRIMMOMATIC
+(on home directory)
+```bash
+mkdir -p ~/tools
+```
+```bash
+cd ~/tools
+```
+```bash
+wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
+```
+```bash
+unzip Trimmomatic-0.39.zip
+```
+```bash
+ls
+```
+```bash
+cd Trimmomatic-0.39
+```
+## BWA INDEX
+```bash
+#Using APT (Ubuntu/WSL)
+sudo apt update
+sudo apt install bwa
+```
+```bash
+#Using Conda (Bioconda)
+conda create -n bioinfo -y
+conda activate bioinfo
+conda install -c bioconda bwa
+```
+## BCFTOOLS
+```bash
+#Creates a new Conda environment named variant_calling and installs bcftools → for manipulating VCF/BCF files, bedtools → for genomic interval operations, snpeff → for variant annotation
+conda create -n variant_calling -c bioconda -c conda-forge bcftools bedtools snpeff
+```
+```bash
+#Tabix is required to index compressed VCF files (.vcf.gz). It also installs bgzip, which is needed for compressing VCFs.
+sudo apt install tabix
+```
+```bash
+bcftools --version
+```
+```bash
+bedtools --version
+```
+```bash
+tabix --version
+```
+## SNPEFF
+```bash
+conda install -c bioconda snpeff
+```
+```bash
+snpEff --version
+```
+```bash
+conda list | grep -i snp 
+```
+```bash
+find ~/miniconda3/ -type f -iname "snpEff*.jar"
+```
+
+# NEXTFLOW.CONFIG 
+nextflow.config is the core configuration file that tells Nextflow how to run the pipeline. I have uploaded the config file [Find config file](https://github.com/Bidya122/Bulk_RNAseq_Analysis/tree/main/Data)
+
+<img width="720" height="170" alt="image" src="https://github.com/user-attachments/assets/0f8f91bf-6c28-4d09-ba4e-447bf174dbae" />  
+
+Nextflow will run jobs locally (same machine). Each process will use 2 CPUs and 1 GB memory. It will use the Conda environment described in environment.yml. 
+
+<img width="341" height="72" alt="image" src="https://github.com/user-attachments/assets/0926f94a-5058-4153-8662-50b3691602cf" />  
+
+All pipeline output will go into a folder called results. It can also be override while running:
+```bash
+nextflow run main.nf -profile conda --outdir output_folder
+```
+<img width="406" height="82" alt="image" src="https://github.com/user-attachments/assets/7de0d25e-fda1-4494-98ef-f47095c919f7" />  
+
+This is optional
+enabled = true → Nextflow knows to activate conda.
+useMamba = true → Faster and smarter installation solver. 
+
+<img width="455" height="132" alt="image" src="https://github.com/user-attachments/assets/02df77b1-0049-4b10-a6b5-b9ac02924acd" />  
+
+withName: ".*" means apply this to all processes (because .* matches everything).  
+Sets:  
+1 CPU per process  
+1 GB memory 
+This overrides earlier settings unless a specific process has its own resources defined. Why have two process blocks?  
+The first process block gives global defaults.  
+The second one refines or overrides them for all processes matched by the pattern.  
+
+<img width="439" height="219" alt="image" src="https://github.com/user-attachments/assets/a59c3221-425a-44d8-ab0b-b6667e618df6" />  
+
+Runs pipeline locally without using Conda environments.  
+Gives 2 CPUs and 1 GB to each process.  
+Saves output to results.  
+
+
+
+
+
+
