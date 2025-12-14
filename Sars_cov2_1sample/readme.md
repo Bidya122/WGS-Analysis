@@ -213,6 +213,46 @@ Starting with Trimming and QC check of the samples.
 <img width="940" height="166" alt="image" src="https://github.com/user-attachments/assets/ff3f10e9-381a-4e08-9e90-3f170f0348d3" />  
 
 ## Quality Control 
+<img width="608" height="332" alt="image" src="https://github.com/user-attachments/assets/b8c6bc83-c0a4-4f0f-87ca-0be941edc179" />  
+<img width="940" height="574" alt="image" src="https://github.com/user-attachments/assets/c86282fa-2f37-4fa3-a47a-dbabf463832c" />  
+<img width="940" height="708" alt="image" src="https://github.com/user-attachments/assets/e1632d68-9a40-41cb-8653-27ce0298b2cc" />  
+<img width="940" height="559" alt="image" src="https://github.com/user-attachments/assets/62f99647-e7b8-4fcf-b8f7-e1a13000d3ee" />  
+<img width="940" height="580" alt="image" src="https://github.com/user-attachments/assets/7f1f8435-2eec-4092-8b20-32311f3fb9e2" />  
+
+The sample on its quality check passed Basic Statistics, Per Base Sequence Quality, Per sequence Quality Scores, Per Base N Content and Adapter Content, which means data file looks normal - correct read length, GC %, etc. No sequences were flagged as poor quality, Read lengths fall within the expected range (50–301 bp) after trimming, GC content (39%) is within a biologically reasonable range, Encoding format is consistent with Illumina sequencing (Sanger / Illumina 1.9), A sufficient number of reads (3,059,010) were retained for downstream analysis. The blue line shows the average quality at each base position across all reads in the per base sequence quality graph.   
+The Per Sequence Quality Scores shows that No reads have an average quality below 30. In other words: Every single read in your dataset has average Phred ≥ 30. Which means every read is 99.9% accurate or better. N content usually means "an unknown base" or the sequencer puts an N, when machine can’t decide what base is there — for example, the signal was too weak or mixed and the last one shows there are no adapter remnannts. 
+
+<img width="769" height="575" alt="image" src="https://github.com/user-attachments/assets/d3ea9d80-a648-48a1-b964-1a0e1845f9f4" />  
+<img width="722" height="366" alt="image" src="https://github.com/user-attachments/assets/941a039f-8538-474a-8ead-16c118fe8d38" />  
+
+Although FastQC flagged the sequence length distribution with a warning, this reflects expected post-trimming variability rather than data quality issues. No corrective action was required, and downstream processing was continued. Overrepresented sequences are sequences (usually short reads or parts of reads) that occur much more frequently than expected in the dataset. FastQC says “No Hit” for the overrepresented sequences, that means:  
+•	Those repeated sequences don’t match any known adapter, primer, or contaminant in its built-in database, and
+•	They’re just repeated short reads that occur more often than expected.
+
+<img width="761" height="372" alt="image" src="https://github.com/user-attachments/assets/3244748b-87ab-423a-bf40-e7532b712593" />  
+<img width="841" height="646" alt="image" src="https://github.com/user-attachments/assets/feda942d-0eda-4b7e-b012-3415969349c3" />  
+
+In Per base sequence content That pattern = sequence data is AT-rich — meaning the genome or transcript that was sequenced naturally contains more adenines (A) and thymines (T) than guanines (G) and cytosines (C).
+As it’s SARS-CoV-2, which is indeed AT-biased (~62% A+T). So that exact separation (A/T lines above, G/C lines below) is expected and biologically correct for this virus.
+In per sequnce GC content, for random genomic DNA, the plot should look like:
+•	A smooth, single bell-shaped curve (like a hill),
+•	Centered around the organism’s expected GC content.  
+o	e.g. Human ~40–50%  
+o	E. coli ~51%  
+o	SARS-CoV-2 ~38%  
+So the peak of the curve should roughly match the expected GC % for your species or genome and it does!!  
+Although FastQC flagged sequence duplication levels as a failure, this is expected for SARS-CoV-2 sequencing due to the small viral genome and high sequencing depth. The observed duplication reflects biological and experimental enrichment rather than poor data quality. Therefore, this QC result did not prevent downstream analysis.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
