@@ -201,6 +201,19 @@ Runs pipeline locally without using Conda environments.
 Gives 2 CPUs and 1 GB to each process.  
 Saves output to results.  
 
+# Main1.nf NEXTFLOW WORKFLOW
+In the earlier sections, I have described the configuration file (nextflow.config), including profiles and execution settings. From this point onward, the focus is on the Nextflow workflow file (.nf).Since this was my first time working with Nextflow, I chose to build the pipeline incrementally, starting with one tool and one process at a time rather than designing a full workflow at once. This approach helped me:  
+- Understand the structure of a Nextflow pipeline  
+- Learn how process, workflow, and channels interact  
+- Debug errors more effectively    
+- Ensure each step works independently before scaling  
+The file main1.nf therefore represents a minimal, functional workflow, intended as a learning and validation step before extending the pipeline further.
+Starting with Trimming and QC check of the samples.
+
+<img width="940" height="166" alt="image" src="https://github.com/user-attachments/assets/ff3f10e9-381a-4e08-9e90-3f170f0348d3" />  
+
+## Quality Control 
+
 
 
 
