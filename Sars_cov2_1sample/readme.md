@@ -212,6 +212,8 @@ Starting with Trimming and QC check of the samples.
 
 <img width="940" height="166" alt="image" src="https://github.com/user-attachments/assets/ff3f10e9-381a-4e08-9e90-3f170f0348d3" />  
 
+I have given the process of the nf file below but you can also find the nf file attached in this folder.
+
 ```bash
 process TRIMMOMATIC {
 publishDir "${params.outdir}/trimmed", mode: 'copy'
