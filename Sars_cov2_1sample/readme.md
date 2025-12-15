@@ -212,7 +212,46 @@ Starting with Trimming and QC check of the samples.
 
 <img width="940" height="166" alt="image" src="https://github.com/user-attachments/assets/ff3f10e9-381a-4e08-9e90-3f170f0348d3" />  
 
-## Quality Control 
+```bash
+process TRIMMOMATIC {
+publishDir "${params.outdir}/trimmed", mode: 'copy'
+cpus = 1
+    memory = '2 GB'
+    input:
+    path sample_file
+
+    output:
+    path "trimmed_${sample_file.name}"
+
+    script:
+    """
+    echo "Running Trimmomatic on $sample_file"
+    java -jar /home/bidya122/Trimmomatic-0.39/trimmomatic-0.39.jar SE -threads 2 \
+        $sample_file trimmed_${sample_file.name} SLIDINGWINDOW:4:20 MINLEN:50
+    """
+}
+
+process FASTQC {
+publishDir "${params.outdir}/fastqc", mode: 'copy'
+cpus = 1
+    memory = '1 GB'
+
+    input:
+    path trimmed_file
+
+    output:
+    path "*_fastqc.html"
+    path "*_fastqc.zip"
+
+    script:
+    """
+    echo "Running FastQC on ${trimmed_file}"
+    fastqc ${trimmed_file} -o .
+    """
+}
+```
+
+## Trimming and Quality Control 
 <img width="608" height="332" alt="image" src="https://github.com/user-attachments/assets/b8c6bc83-c0a4-4f0f-87ca-0be941edc179" />  
 <img width="940" height="574" alt="image" src="https://github.com/user-attachments/assets/c86282fa-2f37-4fa3-a47a-dbabf463832c" />  
 <img width="940" height="708" alt="image" src="https://github.com/user-attachments/assets/e1632d68-9a40-41cb-8653-27ce0298b2cc" />  
@@ -230,7 +269,8 @@ Although FastQC flagged the sequence length distribution with a warning, this re
 •	They’re just repeated short reads that occur more often than expected.
 
 <img width="761" height="372" alt="image" src="https://github.com/user-attachments/assets/3244748b-87ab-423a-bf40-e7532b712593" />  
-<img width="841" height="646" alt="image" src="https://github.com/user-attachments/assets/feda942d-0eda-4b7e-b012-3415969349c3" />  
+<img width="841" height="646" alt="image" src="https://github.com/user-attachments/assets/feda942d-0eda-4b7e-b012-3415969349c3" />    
+<img width="940" height="686" alt="image" src="https://github.com/user-attachments/assets/c2427c62-9ccd-4d90-b560-864bbdd07490" />  
 
 In Per base sequence content That pattern = sequence data is AT-rich — meaning the genome or transcript that was sequenced naturally contains more adenines (A) and thymines (T) than guanines (G) and cytosines (C).
 As it’s SARS-CoV-2, which is indeed AT-biased (~62% A+T). So that exact separation (A/T lines above, G/C lines below) is expected and biologically correct for this virus.
@@ -241,8 +281,9 @@ o	e.g. Human ~40–50%
 o	E. coli ~51%  
 o	SARS-CoV-2 ~38%  
 So the peak of the curve should roughly match the expected GC % for your species or genome and it does!!  
-Although FastQC flagged sequence duplication levels as a failure, this is expected for SARS-CoV-2 sequencing due to the small viral genome and high sequencing depth. The observed duplication reflects biological and experimental enrichment rather than poor data quality. Therefore, this QC result did not prevent downstream analysis.
+Although FastQC flagged sequence duplication levels as a failure, this is expected for SARS-CoV-2 sequencing due to the small viral genome and high sequencing depth. The observed duplication reflects biological and experimental enrichment rather than poor data quality. Therefore, this QC result did not prevent downstream analysis.  
 
+Following successful quality control, reads were aligned to the indexed reference genome using BWA. 
 
 
 
