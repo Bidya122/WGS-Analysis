@@ -285,7 +285,72 @@ o	SARS-CoV-2 ~38%
 So the peak of the curve should roughly match the expected GC % for your species or genome and it does!!  
 Although FastQC flagged sequence duplication levels as a failure, this is expected for SARS-CoV-2 sequencing due to the small viral genome and high sequencing depth. The observed duplication reflects biological and experimental enrichment rather than poor data quality. Therefore, this QC result did not prevent downstream analysis.  
 
-Following successful quality control, reads were aligned to the indexed reference genome using BWA. 
+Following successful quality control, reads were aligned to the indexed reference genome using BWA. Before sequencing reads can be aligned to a reference genome, the reference must be indexed. Indexing does not cut or modify the genome. Instead, it preprocesses the reference genome into a searchable data structure that allows BWA to locate short DNA sequences quickly and efficiently.   
+You can think of indexing like preparing a table of contents for a very large book. Rather than scanning the entire book every time, BWA uses this index to jump directly to the most likely locations where a read may align.    
+Sequencing reads are very short compared to the full genome.
+Indexing is required because, Without indexing, BWA would need to scan the entire genome for every read, which would be extremely slow. By indexing the reference genome:  
+- Read alignment becomes fast
+- Memory usage is efficient
+- Millions of reads can be aligned in a practical time
+I have given the process below but, you can also find it on the main1.nf file that I have provided
+
+```bash
+process BWA_INDEX {
+    publishDir "${params.outdir}/bwa_index", mode: 'copy'
+
+    input:
+    path ref_file
+
+    output:
+    path "bwa_index", emit: indexed_ref_dir
+
+    script:
+    """
+    mkdir bwa_index
+    cp ${ref_file} bwa_index/
+    cd bwa_index
+    bwa index `basename ${ref_file}`
+    """
+}
+```
+<img width="940" height="147" alt="image" src="https://github.com/user-attachments/assets/e681398f-76d5-4288-bca0-a4409237b9ed" />    
+
+This step aligns sequencing reads to a pre-indexed reference genome using BWA-MEM and generates sorted and indexed BAM files. The alignment output is converted from SAM to BAM format, sorted by genomic coordinates, and indexed to enable efficient downstream analysis.  
+These processed BAM files are essential for tasks such as variant calling, coverage analysis, and visualization. The sorted and indexed BAM files can be directly loaded into IGV (Integrative Genomics Viewer) for manual inspection of read alignments and mapping quality. The resulting alignment files are suitable for versioning and sharing as reproducible outputs of the pipeline.  
+
+```bash
+process ALIGN_READS {
+    publishDir "${params.outdir}/alignment", mode: 'copy'
+
+    input:
+    tuple path(reads), path(indexed_ref_dir)
+
+    output:
+    path "*.sorted.bam"
+
+    script:
+    """
+    echo "Aligning reads: ${reads} using reference inside ${indexed_ref_dir}"
+
+    # Get the FASTA file from inside the indexed reference directory
+    ref_fasta=\$(ls ${indexed_ref_dir}/*.fasta)
+
+    echo "Using reference: \${ref_fasta}"
+
+    bwa mem \${ref_fasta} ${reads} > \$(basename ${reads} .fastq.gz).sam
+    samtools view -S -b \$(basename ${reads} .fastq.gz).sam > \$(basename ${reads} .fastq.gz).bam
+    samtools sort \$(basename ${reads} .fastq.gz).bam -o \$(basename ${reads} .fastq.gz).sorted.bam
+    samtools index \$(basename ${reads} .fastq.gz).sorted.bam
+    """
+}
+```
+<img width="940" height="260" alt="image" src="https://github.com/user-attachments/assets/1e4d0819-b7b7-4c0b-8ddc-2f285f4da751" />  
+
+
+
+
+
+  
 
 
 
