@@ -346,6 +346,41 @@ process ALIGN_READS {
 ```
 <img width="940" height="260" alt="image" src="https://github.com/user-attachments/assets/1e4d0819-b7b7-4c0b-8ddc-2f285f4da751" />  
 
+**Let's see actually how does my file looks like on IGV:**
+
+Open the IGV > On TOP right click on "Genomes" > Load genome from file > Select the .fasta file (reference genome), in this case its NC_045512.2 > You can see that on the bottom of the page > Then again on the top right click on "File" > Load from file > Select the .bam file. And this is what I see: 
+
+<img width="1365" height="728" alt="image" src="https://github.com/user-attachments/assets/2ef64cde-604c-432f-aae0-25f45f533f47" />  
+
+The aligned sequencing reads generated from the WGS Nextflow pipeline were visualized using Integrative Genomics Viewer (IGV) to assess alignment quality, coverage, and sequence variation.
+*Reference Genome*  
+The alignment was performed against the NC_045512.2 reference genome (SARS-CoV-2). The same FASTA file used during alignment was loaded into IGV to ensure coordinate and chromosome name consistency.  
+
+*Input Files*  
+The following files were used for visualization:  
+Sorted BAM file (trimmed_SRR13182925_1.sorted.bam) containing aligned reads  
+BAM index file (.bai) enabling rapid random access  
+Reference genome FASTA file (NC_045512.2.fasta)  
+
+*Coverage Track*  
+The coverage track displays read depth across the genome, indicating the number of reads aligned at each genomic position. Continuous and uniform coverage across most regions suggests successful whole-genome sequencing and alignment.  
+
+*Alignment Track*
+Individual sequencing reads are shown as horizontal bars aligned to the reference genome. Stacked reads indicate regions of high coverage. Each read represents a trimmed sequencing fragment mapped to the reference.  
+
+*Variant Representation*
+Colored bases within reads represent mismatches between the aligned read and the reference sequence, potentially indicating single nucleotide variants (SNVs). Insertion and deletion events are visualized as small symbols within the reads, reflecting gaps or additional bases relative to the reference. If many reads show the same color at the same position, that is a real variant.  
+
+*Genome-wide View*  
+At the genome-wide scale (~29 kb), reads appear densely packed. Zooming into smaller genomic regions allows base-level inspection of alignments and clearer identification of sequence variations.  
+
+<img width="1363" height="725" alt="image" src="https://github.com/user-attachments/assets/a264c900-27a3-47b1-8571-6cd096210595" />    
+
+Base-level IGV view showing a single nucleotide variant (SNV). Multiple aligned reads consistently support an A substitution relative to the NC_045512.2 reference, indicating a high-confidence variant.  
+
+<img width="211" height="224" alt="image" src="https://github.com/user-attachments/assets/2bcee49c-e80f-4914-b6fc-e28c51ebbdfe" />    
+
+When the green A nucleotide is clicked in IGV, a base count summary is displayed for the selected genomic position (NC_045512.2:21,846). This summary reports a total read depth of 2252, with 2251 reads supporting an A substitution. Strand-specific counts show balanced support from both forward (1094+) and reverse (1157−) orientations, indicating the variant is not strand biased. Minimal support for other bases and low deletion counts suggest high confidence in this single nucleotide variant.
 
 
 
