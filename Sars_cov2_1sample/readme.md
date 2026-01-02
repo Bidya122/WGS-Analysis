@@ -12,6 +12,7 @@ This project is a Nextflow DSL2 workflow for processing SARS-CoV-2 sequencing da
 -Merging BAMs, counting total reads, and computing coverage  
 
 **Learning Context**  
+⚠️ Note on Read Layout (Learning Context)   
 During this exercise, I ran Trimmomatic in single-end (SE) mode on a dataset that was originally paired-end.
 I made this choice by mistake initially, but I continued the workflow to learn Nextflow, FASTQC, BWA alignment, and BAM handling. The purpose of this project is educational, not to produce publication-grade results.
 The workflow is designed as a learning exercise to practice building reproducible bioinformatics pipelines.  
@@ -381,6 +382,8 @@ Base-level IGV view showing a single nucleotide variant (SNV). Multiple aligned 
 <img width="211" height="224" alt="image" src="https://github.com/user-attachments/assets/2bcee49c-e80f-4914-b6fc-e28c51ebbdfe" />    
 
 When the green A nucleotide is clicked in IGV, a base count summary is displayed for the selected genomic position (NC_045512.2:21,846). This summary reports a total read depth of 2252, with 2251 reads supporting an A substitution. Strand-specific counts show balanced support from both forward (1094+) and reverse (1157−) orientations, indicating the variant is not strand biased. Minimal support for other bases and low deletion counts suggest high confidence in this single nucleotide variant.
+
+Although the reads were initially processed in single-end mode due to an earlier oversight, the resulting BAM files were merged to generate a complete sample-level alignment and to understand downstream viral genomics analyses.
 
 
 
