@@ -385,6 +385,30 @@ When the green A nucleotide is clicked in IGV, a base count summary is displayed
 
 Although the reads were initially processed in single-end mode due to an earlier oversight, the resulting BAM files were merged to generate a complete sample-level alignment and to understand downstream viral genomics analyses.
 
+<img width="940" height="402" alt="image" src="https://github.com/user-attachments/assets/a41cf695-03de-4a8f-b3ed-ced309ebec1f" />  
+
+<img width="940" height="354" alt="image" src="https://github.com/user-attachments/assets/31fd44a0-fbb7-453b-8be1-3104e212cab8" />  
+
+
+| Metric                                  | Value   | Interpretation                                                               |
+| --------------------------------------- | ------- | ---------------------------------------------------------------------------- |
+| Total reads                             | 291,246 | Total number of reads in the merged BAM file                                 |
+| Mapped reads                            | 265,884 | Reads successfully aligned to the reference genome                           |
+| Mapping rate                            | 91.29%  | High alignment efficiency, suitable for downstream analysis                  |
+| Supplementary alignments                | 665     | Likely split or partially aligned reads, common in viral amplicon sequencing |
+| Paired reads                            | 0       | Dataset is treated as single-end                                             |
+| Properly paired reads                   | N/A     | Not applicable for single-end data                                           |
+| Reads with mate on different chromosome | 0       | Expected for a single-chromosome viral genome                                |  
+
+
+The alignment results indicate high-quality mapping of sequencing reads to the SARS-CoV-2 reference genome (NC_045512.2), with over 91% of reads successfully aligned. This level of alignment accuracy is sufficient for reliable detection of single nucleotide variants (SNVs) and small indels.  
+Paired-end–specific metrics are reported as 0 or N/A because the BAM file does not contain read-pair information and is treated as single-end. This does not affect variant calling, as variant detection relies primarily on:  
+- Read depth  
+- Base quality  
+- Mapping quality  
+- Consistency of variant support across reads  
+Supplementary alignments likely arise from primer boundaries or fragmented reads and are expected in amplicon-based viral sequencing workflows.    
+
 
 
 
