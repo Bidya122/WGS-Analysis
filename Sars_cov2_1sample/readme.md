@@ -401,7 +401,35 @@ When the green A nucleotide is clicked in IGV, a base count summary is displayed
 
 Although the reads were initially processed in single-end mode due to an earlier oversight, the resulting BAM files were merged to generate a complete sample-level alignment and to understand downstream viral genomics analyses.
 
+```bash
+process MERGE_BAMS {
+    publishDir "${params.outdir}/merged", mode: 'copy'
+
+    input:
+    path bam_files  // This will be a list of BAMs
+
+    output:
+    tuple path("merged.bam"), path("merged.bam.bai"), path("total_reads.txt"), path("coverage.txt"), emit: merged_info
+
+    script:
+    """
+    # Merge BAMs
+    samtools merge merged.bam ${bam_files.join(' ')}
+    samtools index merged.bam
+
+    # Count total reads
+    samtools view -c merged.bam > total_reads.txt
+
+    # Compute coverage
+    samtools depth merged.bam > coverage.txt
+    """
+}
+```
+
 <img width="940" height="402" alt="image" src="https://github.com/user-attachments/assets/a41cf695-03de-4a8f-b3ed-ced309ebec1f" />  
+
+<img width="863" height="300" alt="image" src="https://github.com/user-attachments/assets/2d352856-db94-440f-8554-e8966334cd3e" />
+
 
 <img width="940" height="354" alt="image" src="https://github.com/user-attachments/assets/31fd44a0-fbb7-453b-8be1-3104e212cab8" />  
 
