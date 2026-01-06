@@ -407,7 +407,74 @@ Paired-end–specific metrics are reported as 0 or N/A because the BAM file does
 - Base quality  
 - Mapping quality  
 - Consistency of variant support across reads  
-Supplementary alignments likely arise from primer boundaries or fragmented reads and are expected in amplicon-based viral sequencing workflows.    
+Supplementary alignments likely arise from primer boundaries or fragmented reads and are expected in amplicon-based viral sequencing workflows.
+
+<img width="940" height="471" alt="image" src="https://github.com/user-attachments/assets/4861afb8-74e9-4251-a235-04da3e1caa86" />  
+
+```bash
+process VARIANT_CALLING {
+    tag "$sample_id"
+
+    publishDir "${params.outdir}/variants", mode: 'copy'
+
+    input:
+    tuple path(bam), path(bai), path(reference), val(sample_id)
+
+    output:
+    path "${sample_id}.variants.vcf.gz"
+
+    script:
+    """
+    echo "Running variant calling for $sample_id"
+    ls -lh  #show what’s inside work dir for debugging
+    echo "Reference file is: $reference"
+    bcftools mpileup -Ou -f $reference $bam | \
+    bcftools call -mv -Oz -o ${sample_id}.variants.vcf.gz
+
+    """
+}
+```
+The resulting VCF files serve as the basis for downstream variant annotation, consensus genome generation, and lineage/clade assignment. Below is a representation of the results.  
+
+<img width="940" height="234" alt="image" src="https://github.com/user-attachments/assets/1eb7d0dc-06c8-4f59-957a-6eef62091012" />
+
+<img width="940" height="176" alt="image" src="https://github.com/user-attachments/assets/8cadc1cb-acbc-4c97-8bef-18a667698825" /
+
+[Find the vcf file here](https://github.com/Bidya122/Bulk_RNAseq_Analysis/tree/main/Data)
+
+The generated VCF files capture high-confidence genomic variants supported by read depth and quality metrics, enabling downstream annotation and biological interpretation. The variant calling step produces a VCF (Variant Call Format) file containing genomic positions where the sample sequence differs from the reference genome.
+
+**VCF Columns Explained**  
+
+| Column     | Description                                                               |
+| ---------- | ------------------------------------------------------------------------- |
+| **CHROM**  | Reference sequence / chromosome name (e.g., *NC_045512.2* for SARS-CoV-2) |
+| **POS**    | Genomic position of the variant (1-based coordinate)                      |
+| **REF**    | Reference nucleotide at this position                                     |
+| **ALT**    | Alternate nucleotide observed in the sample                               |
+| **QUAL**   | Phred-scaled quality score indicating confidence in the variant call      |
+| **FILTER** | Filter status (`.` indicates the variant passed all filters)              |
+| **INFO**   | Additional annotations describing read depth, quality, and allele support |
+
+**Key INFO Field Annotations (Commonly Used)**  
+
+| INFO Tag | Meaning                                                                |
+| -------- | ---------------------------------------------------------------------- |
+| **DP**   | Total read depth at the variant position                               |
+| **DP4**  | Read counts supporting REF and ALT alleles (forward & reverse strands) |
+| **MQ**   | Root mean square mapping quality of reads                              |
+| **MQSB** | Mapping quality strand bias                                            |
+| **VDB**  | Variant distance bias (lower values indicate better support)           |
+| **SGB**  | Segregation bias (used to detect alignment artefacts)                  |
+| **AC**   | Alternate allele count                                                 |
+| **AN**   | Total number of alleles considered                                     |
+| **AF**   | Allele frequency of the variant                                        |
+| **HOB**  | Homozygosity bias (useful in viral genomics)                           |
+| **MQ0F** | Fraction of reads with zero mapping quality                            |
+
+Variant calling identified multiple high-confidence single nucleotide variants across the viral genome, all supported by high read depth (DP > 80) and mapping quality (MQ = 60). Most variants showed allele frequencies close to 1, indicating fixation within the sample population. These variants were subsequently used for consensus genome generation and lineage assignment, suggesting that the sample represents a well-resolved viral genome suitable for downstream epidemiological and functional analysis.
+
+
 
 
 
