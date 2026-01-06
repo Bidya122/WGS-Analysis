@@ -166,6 +166,22 @@ conda list | grep -i snp
 ```bash
 find ~/miniconda3/ -type f -iname "snpEff*.jar"
 ```
+## NEXTCLADE
+```bash
+conda activate base   # or a tools env
+```
+```bash
+conda install -c bioconda -c conda-forge nextclade
+```
+```bash
+nextclade –version
+```
+```bash
+#dataset download
+nextclade dataset get --name sars-cov-2 --output-dir nextclade_dataset
+```
+<img width="940" height="105" alt="image" src="https://github.com/user-attachments/assets/d94310c2-e7c7-41ab-996d-49e4ed0dcc97" />  
+
 
 # NEXTFLOW.CONFIG 
 nextflow.config is the core configuration file that tells Nextflow how to run the pipeline. I have uploaded the config file [Find config file](https://github.com/Bidya122/Bulk_RNAseq_Analysis/tree/main/Data)
@@ -546,8 +562,61 @@ Approximately 8.94% of the consensus genome consists of masked (N) bases, reflec
 
 <img width="940" height="120" alt="image" src="https://github.com/user-attachments/assets/e553630e-eb86-4804-8a8a-9b9db5511be1" />
 
+Consensus genomes were generated using bcftools consensus with regions having <10× coverage masked to Ns. The final consensus genome was 29,903 bp in length with ~9% ambiguous bases, reflecting uneven sequencing coverage.  
 
+After generating a high-confidence consensus genome, the next step is to contextualize the sample within known viral diversity. While variant calling and annotation describe mutations at the nucleotide and gene level, they do not provide information about lineage assignment, clade classification, or overall genome quality.To address this, the consensus genome was analyzed using Nextclade, a widely used tool for SARS-CoV-2 quality control and clade assignment.  
   
+```bash
+process NEXTCLADE_QC {
+
+    publishDir "${params.outdir}/nextclade", mode: 'copy'
+
+    input:
+    path consensus_fasta
+    path nextclade_dataset
+
+    output:
+    path "nextclade.tsv"
+    path "nextclade.json"
+    path "nextclade.aligned.fasta"
+    
+    script:
+    """
+    nextclade run \
+        --input-dataset ${nextclade_dataset} \
+        ${consensus_fasta} \
+        --output-tsv nextclade.tsv \
+        --output-json nextclade.json \
+        --output-fasta nextclade.aligned.fasta
+    """
+}
+```
+<img width="940" height="363" alt="image" src="https://github.com/user-attachments/assets/2c99257f-10b9-41c0-8aac-b914ba248afe" />  
+
+| Feature                      | Observation              | Interpretation                                                                              |
+| ---------------------------- | ------------------------ | ------------------------------------------------------------------------------------------- |
+| Reference genome             | NC_045512.2 (Wuhan-Hu-1) | Standard reference genome for SARS-CoV-2 comparative analysis.                              |
+| Clade (Nextstrain / WHO)     | 20A / B.1                | Early pandemic clade corresponding to the B.1 lineage.                                      |
+| Overall QC score             | 77.37 (mediocre)         | Genome quality is moderate due to missing regions, but sufficient for clade assignment.     |
+| Total substitutions          | 7                        | Limited divergence from the reference genome.                                               |
+| Total deletions / insertions | 0                        | No indels detected; genome structure is preserved.                                          |
+| Total missing bases          | 2,675 (~8.94%)           | Missing regions reflect low coverage and may impact fine-scale mutation analysis.           |
+| Total non-ACGTN bases        | 0                        | No ambiguous base calls in covered regions, indicating reliable sequencing data.            |
+| Amino acid substitutions     | 5                        | Includes substitutions in E, ORF1b, ORF3a, and Spike proteins (e.g., S:D614G).              |
+| Frame shifts / stop codons   | 0                        | No disruptive mutations detected; coding sequences remain intact.                           |
+| Private mutations            | 4 labeled substitutions  | Mutations not shared with the broader clade, possibly reflecting sample-specific variation. |
+| Missing regions              | Multiple ORF ranges      | Partial CDS coverage may affect gene-level mutation interpretation.                         |
+| Pangolin lineage             | B.1                      | Consistent with Nextstrain clade assignment.                                                |
+
+[Find the Nextclade output here](https://github.com/Bidya122/Bulk_RNAseq_Analysis/tree/main/Data)
+
+1.	The sequenced genome belongs to clade 20A / lineage B.1, an early SARS-CoV-2 variant.  
+2.	Overall sequence quality is moderate, with ~9% missing data, but no major structural mutations (frameshifts or stop codons) were found.  
+3.	Detected nucleotide substitutions are few and consistent with early B.1 lineage markers (C3037T, C14408T, A23403G).  
+4.	Observed amino acid changes in spike (S:T95N, S:D614G) and other ORFs may have functional relevance, consistent with lineage characteristics.  
+5.	No insertions, deletions, or frameshifts were detected, indicating a largely intact genome.  
+✅ Overall, the genome is a moderately complete early B.1 lineage SARS-CoV-2 sequence, with a few private mutations but no major disruptive changes.  
+I identified 7 high-confidence SNPs, including lineage-defining mutations such as Spike D614G and ORF1b P314L, which place this genome within clade 20A (B.1). These variants are consistent with globally circulating strains and explain the observed phylogenetic placement.  
 
 
 
