@@ -1,0 +1,14 @@
+IQ-TREE multicore version 2.1.4-beta COVID-edition for Linux 64-bit built Jun 24 2021
+Developed by Bui Quang Minh, James Barbetti, Nguyen Lam Tung,
+Olga Chernomor, Heiko Schmidt, Dominik Schrempf, Michael Woodhams.
+
+Host:    DESKTOP-F2N50V0 (AVX2, FMA3, 3 GB RAM)
+Command: iqtree2 -s nextclade.aligned.fasta -m GTR+G -nt AUTO
+Seed:    131865 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Thu Jan  1 08:06:29 2026
+Kernel:  AVX+FMA - auto-detect threads (2 CPU cores detected)
+
+Reading alignment file nextclade.aligned.fasta ... Fasta format detected
+Alignment most likely contains DNA/RNA sequences
+WARNING: 2675 sites contain only gaps or ambiguous characters.
+ERROR: Alignment must have at least 3 sequences
