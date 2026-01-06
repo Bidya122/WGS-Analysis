@@ -184,7 +184,7 @@ nextclade dataset get --name sars-cov-2 --output-dir nextclade_dataset
 
 
 # NEXTFLOW.CONFIG 
-nextflow.config is the core configuration file that tells Nextflow how to run the pipeline. I have uploaded the config file [Find config file](https://github.com/Bidya122/Bulk_RNAseq_Analysis/tree/main/Data)
+nextflow.config is the core configuration file that tells Nextflow how to run the pipeline. I have uploaded the config file [Find config file](https://github.com/Bidya122/WGS-Analysis/tree/main/Sars_cov2_1sample/Nextflow)
 
 <img width="720" height="170" alt="image" src="https://github.com/user-attachments/assets/0f8f91bf-6c28-4d09-ba4e-447bf174dbae" />  
 
@@ -230,6 +230,7 @@ Starting with Trimming and QC check of the samples.
 <img width="940" height="166" alt="image" src="https://github.com/user-attachments/assets/ff3f10e9-381a-4e08-9e90-3f170f0348d3" />  
 
 I have given the process of the nf file below but you can also find the nf file attached in this folder.
+ [Find nf file](https://github.com/Bidya122/WGS-Analysis/tree/main/Sars_cov2_1sample/Nextflow)
 
 ```bash
 process TRIMMOMATIC {
@@ -485,7 +486,7 @@ The resulting VCF files serve as the basis for downstream variant annotation, co
 <img width="940" height="176" alt="image" src="https://github.com/user-attachments/assets/8d7fe042-bc9e-4983-9e5c-c390799da905" />
 
 
-[Find the vcf file here](https://github.com/Bidya122/Bulk_RNAseq_Analysis/tree/main/Data)
+[Find the vcf file here](https://github.com/Bidya122/WGS-Analysis/tree/main/Sars_cov2_1sample/Output)
 
 The generated VCF files capture high-confidence genomic variants supported by read depth and quality metrics, enabling downstream annotation and biological interpretation. The variant calling step produces a VCF (Variant Call Format) file containing genomic positions where the sample sequence differs from the reference genome.
 
@@ -636,7 +637,7 @@ process NEXTCLADE_QC {
 | Missing regions              | Multiple ORF ranges      | Partial CDS coverage may affect gene-level mutation interpretation.                         |
 | Pangolin lineage             | B.1                      | Consistent with Nextstrain clade assignment.                                                |
 
-[Find the Nextclade output here](https://github.com/Bidya122/Bulk_RNAseq_Analysis/tree/main/Data)
+[Find the Nextclade output here](https://github.com/Bidya122/WGS-Analysis/tree/main/Sars_cov2_1sample/Output)
 
 1.	The sequenced genome belongs to clade 20A / lineage B.1, an early SARS-CoV-2 variant.  
 2.	Overall sequence quality is moderate, with ~9% missing data, but no major structural mutations (frameshifts or stop codons) were found.  
