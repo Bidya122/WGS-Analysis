@@ -646,7 +646,7 @@ process NEXTCLADE_QC {
 ✅ Overall, the genome is a moderately complete early B.1 lineage SARS-CoV-2 sequence, with a few private mutations but no major disruptive changes.  
 I identified 7 high-confidence SNPs, including lineage-defining mutations such as Spike D614G and ORF1b P314L, which place this genome within clade 20A (B.1). These variants are consistent with globally circulating strains and explain the observed phylogenetic placement.  
 
-
+Although Nextclade provides placement information, a full phylogenetic tree was not generated in this project because only a single consensus genome was analyzed. Phylogenetic reconstruction is inherently comparative and requires multiple sequences to infer evolutionary relationships reliably. In future work, I plan to process larger cohorts of genomes and integrate phylogenetic tree construction (e.g., using IQ-TREE, UShER, or Nextstrain’s Augur) to uncover evolutionary dynamics among samples.
 
 
 
