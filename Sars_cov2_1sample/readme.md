@@ -16,7 +16,21 @@ This project is a Nextflow DSL2 workflow for processing SARS-CoV-2 sequencing da
 During this exercise, I ran Trimmomatic in single-end (SE) mode on a dataset that was originally paired-end.
 I made this choice by mistake initially, but I continued the workflow to learn Nextflow, FASTQC, BWA alignment, and BAM handling. The purpose of this project is educational, not to produce publication-grade results.
 The workflow is designed as a learning exercise to practice building reproducible bioinformatics pipelines.  
-The main goal of this project was to learn and demonstrate a complete WGS pipeline, preparing me to scale this workflow to larger datasets or different organisms in future analyses. This workflow can be easily adapted to true paired-end processing by modifying the Trimmomatic and alignment steps to handle read pairs.   
+The main goal of this project was to learn and demonstrate a complete WGS pipeline, preparing me to scale this workflow to larger datasets or different organisms in future analyses. This workflow can be easily adapted to true paired-end processing by modifying the Trimmomatic and alignment steps to handle read pairs.  
+
+🚀 Pipeline Overview
+
+The workflow performs the following steps:  
+Quality trimming – Trimmomatic  
+Quality control – FastQC  
+Reference indexing – BWA  
+Read alignment – BWA-MEM  
+BAM processing – sorting, indexing, merging  
+Coverage & read statistics – samtools  
+Variant calling – bcftools  
+Variant annotation – SnpEff  
+Consensus genome generation – bcftools consensus 
+Clade & lineage assignment – Nextclade  
 
 **Key Notes About the Workflow**
 
