@@ -114,7 +114,10 @@ head SRR37624945.fastq
 #To check the first twenty lines of the file
 head -n 20 SRR37624945.fastq
 ```
-![Uploading Screenshot 2026-08-12 170742.png…]()
+<img width="940" height="295" alt="image" src="https://github.com/user-attachments/assets/80052e8d-b5ca-4b57-9ebb-26af6295f225" />
+
+
+
 
 
 
