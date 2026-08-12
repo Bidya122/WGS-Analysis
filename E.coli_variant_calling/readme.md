@@ -124,6 +124,14 @@ fastqc SRR37624945.fastq
 ```
 [Fastqc Output](https://github.com/Bidya122/WGS-Analysis/blob/main/E.coli_variant_calling/SRR37624945_fastqc.html) 
 
+**FastQC Report**
+<img width="1256" height="612" alt="image" src="https://github.com/user-attachments/assets/2022f271-de7b-45c2-bc67-63098133f8b8" />
+
+FastQC was performed to assess the quality and characteristics of the sequencing reads before downstream analysis. The dataset contained 110,951 sequences with approximately 231.3 Mbp of total sequence data and a GC content of 50%. No sequences were flagged as poor quality. Some FastQC modules showed warnings or failures, which were further examined to identify potential quality or sequence-composition issues.
+
+<img width="1120" height="783" alt="image" src="https://github.com/user-attachments/assets/6a69fadd-5b56-4f8c-b830-b4071b9d141f" />
+
+The reads showed relatively poor and variable quality at the beginning, as indicated by the lower blue line and wider yellow boxes. The quality gradually improved with increasing read length and became good and relatively consistent later in the reads. The blue line represents the mean (average) quality score, while the red line represents the median quality score within each position. When these values fall into the lower-quality region, it indicates poorer-quality bases. Hence, it needs trimming for the initial few bases. 
 
 
 
