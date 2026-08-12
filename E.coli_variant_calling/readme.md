@@ -42,6 +42,59 @@ But if you directly want to uncompress using the terminal then below is the comm
 gunzip SRR37624945.fastq.gz
 ```
 ## Installation of Tools
+**SRA Toolkit Installation - necessary to access, download, and convert sequencing data from the NCBI Sequence Read Archive (SRA) into usable formats for analysis.**  
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+```bash
+sudo apt install sra-toolkit -y
+```
+```bash
+which prefetch
+```
+```bash
+which fastq-dump
+```
+**Fastq Installation.**  
+```bash
+sudo apt install fastqc -y
+```
+```bash
+fastqc --version
+```
+**Multiqc Installation.**  
+```bash
+python3 -m pip install --upgrade pip
+```
+```bash
+pip install multiqc
+```
+```bash
+multiqc --version
+```
+**Trimmomatic Installation**
+(on home directory)
+```bash
+mkdir -p ~/tools
+```
+```bash
+cd ~/tools
+```
+```bash
+wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
+```
+```bash
+unzip Trimmomatic-0.39.zip
+```
+```bash
+ls
+```
+```bash
+cd Trimmomatic-0.39
+```
+<img width="707" height="48" alt="image" src="https://github.com/user-attachments/assets/23194517-1525-43e9-b683-16d0a4251759" />
+
+
 
 
 
