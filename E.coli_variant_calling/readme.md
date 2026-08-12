@@ -90,21 +90,32 @@ You should see something like this
 
 Before performing quality control, I first inspected the raw FASTQ file to understand its basic structure. A FASTQ file stores sequencing reads along with the quality information associated with each base. Each read is represented by four lines:
 
-`@Read_ID
-SEQUENCE
-+
-QUALITY_SCORE`
+`@Read_ID`  
+`SEQUENCE`  
+`+`  
+`QUALITY_SCORE`  
 
 For example:
-@SRR37624945.1
-ACGTACGTACGT...
-+
-IIIIIIIIIIII...
-What the four lines represent
-- Read identifier (@): Contains information used to identify the sequencing read.
-- Nucleotide sequence: Contains the DNA bases determined by the sequencer (A, T, G, C, and sometimes N for an undetermined base).
-- Separator (+): Marks the beginning of the quality-score line. It may optionally repeat the read identifier.
-- Quality scores: Contains one character for each base in the sequence. These characters encode the Phred quality score, which represents the confidence of the sequencer's base call.
+@SRR37624945.1  
+ACGTACGTACGT...  
++  
+IIIIIIIIIIII...  
+What the four lines represent  
+- Read identifier (@): Contains information used to identify the sequencing read.  
+- Nucleotide sequence: Contains the DNA bases determined by the sequencer (A, T, G, C, and sometimes N for an undetermined base).  
+- Separator (+): Marks the beginning of the quality-score line. It may optionally repeat the read identifier.  
+- Quality scores: Contains one character for each base in the sequence. These characters encode the Phred quality score, which represents the confidence of the sequencer's base call.  
+ 
+```bash
+#To check the raw fastq file
+head SRR37624945.fastq
+```
+```bash
+#To check the first twenty lines of the file
+head -n 20 SRR37624945.fastq
+```
+![Uploading image.png…]()
+
 
 
 
