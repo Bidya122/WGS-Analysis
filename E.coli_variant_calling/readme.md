@@ -35,6 +35,13 @@ Then I Clicked on the SRR to download the FASTQ file for my analysis.
 
 <img width="1462" height="733" alt="image" src="https://github.com/user-attachments/assets/993396d7-ee71-4f1a-b27b-8a768ea72ef9" />    
 
+The raw sequencing data for run SRR37624945 were obtained from the NCBI SRA in FASTQ format. Since the analysis was performed using WSL (Ubuntu), the downloaded FASTQ file was first unzipped and then moved into the Ubuntu home directory so that it could be accessed easily during the downstream analysis. The resulting raw sequencing file was `SRR37624945.fastq`.
+
+But if you directly want to uncompress using the terminal then below is the command
+```
+gunzip SRR37624945.fastq.gz
+```
+## Installation of Tools
 
 
 
