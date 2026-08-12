@@ -116,6 +116,14 @@ head -n 20 SRR37624945.fastq
 ```
 <img width="940" height="295" alt="image" src="https://github.com/user-attachments/assets/80052e8d-b5ca-4b57-9ebb-26af6295f225" />
 
+FastQC was performed on the downloaded FASTQ file to assess the quality of the sequencing reads. It provides information on read quality scores, GC content, sequence duplication, and other quality-related parameters to identify any potential issues before further analysis.
+
+```bash
+#To check the quality of the fastq file
+fastqc SRR37624945.fastq
+```
+[Fastqc Output](https://github.com/Bidya122/WGS-Analysis/blob/main/E.coli_variant_calling/SRR37624945_fastqc.html) 
+
 
 
 
