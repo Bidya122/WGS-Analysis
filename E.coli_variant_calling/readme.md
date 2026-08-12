@@ -62,16 +62,6 @@ sudo apt install fastqc -y
 ```bash
 fastqc --version
 ```
-**Multiqc Installation.**  
-```bash
-python3 -m pip install --upgrade pip
-```
-```bash
-pip install multiqc
-```
-```bash
-multiqc --version
-```
 **Trimmomatic Installation**
 (on home directory)
 ```bash
@@ -92,8 +82,29 @@ ls
 ```bash
 cd Trimmomatic-0.39
 ```
+You should see something like this 
+
 <img width="707" height="48" alt="image" src="https://github.com/user-attachments/assets/23194517-1525-43e9-b683-16d0a4251759" />
 
+## Data Visualization and Quality Control
+
+Before performing quality control, I first inspected the raw FASTQ file to understand its basic structure. A FASTQ file stores sequencing reads along with the quality information associated with each base. Each read is represented by four lines:
+
+`@Read_ID
+SEQUENCE
++
+QUALITY_SCORE`
+
+For example:
+@SRR37624945.1
+ACGTACGTACGT...
++
+IIIIIIIIIIII...
+What the four lines represent
+- Read identifier (@): Contains information used to identify the sequencing read.
+- Nucleotide sequence: Contains the DNA bases determined by the sequencer (A, T, G, C, and sometimes N for an undetermined base).
+- Separator (+): Marks the beginning of the quality-score line. It may optionally repeat the read identifier.
+- Quality scores: Contains one character for each base in the sequence. These characters encode the Phred quality score, which represents the confidence of the sequencer's base call.
 
 
 
