@@ -156,6 +156,16 @@ The sequence length distribution shows that most reads are concentrated within t
 
 The remaining FastQC parameters, including sequence duplication levels, overrepresented sequences, and adapter content, showed no significant abnormalities. The absence of excessive sequence duplication suggests good library complexity, while no overrepresented sequences or adapter contamination indicates that the reads are not substantially affected by unwanted sequence enrichment or adapter contamination. Overall, these parameters indicate good sequencing quality.    
 
+**Trimming**
+
+Following the initial quality assessment using FastQC, the sequencing reads were subjected to quality trimming. Trimming was performed to remove low-quality bases and any residual adapter sequences, thereby improving the overall quality of the reads for downstream analysis. The trimmed reads were subsequently used for further analysis. 
+
+```bash
+java -jar /home/bidya/tools/Trimmomatic-0.39/trimmomatic-0.39.jar SE -phread33 \
+SRR37624945.fastq \
+SRR37624945_trimmed.fastq \
+LEADING:20 SLIDINGWINDOW:4:20 MINLEN:36
+```
 
 
 
