@@ -206,8 +206,65 @@ Additional trimming was not performed because the post-trimming FastQC report sh
 ## Reference Genome Download    
 The dataset was identified as Escherichia coli K-12. Based on the strain information, E. coli K-12 MG1655 was selected as the reference strain. The corresponding reference genome assembly, ASM584v2, was obtained from the NCBI genome database in FASTA format. This reference genome was subsequently used for alignment of the trimmed sequencing reads.  
 
-Go to NCBI > Search "E coli K12 NCBI Genome" > Select of the correct strain and substrain and download the reference genome.    
+Go to NCBI > Search "E coli K12 NCBI Genome" > Select of the correct strain and substrain and download the reference genome > Click FTP > Click on "GCF_000005845.2_ASM584v2_genomic.fna.gz" > Decompress it Take this file to the working directory on Ubuntu  
+
 [Click to Download Reference Genome](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000005845.2/)    
+
+## Indexing the Reference Genome
+Before performing read alignment, the downloaded E. coli K-12 substr. MG1655 reference genome (ASM584v2) was indexed using BWA. Indexing generates auxiliary files that allow BWA to efficiently search and align sequencing reads against the reference genome. The reference genome was indexed using the following command:
+
+```bash
+bwa index  GCF_000005845.2_ASM584v2_genomic.fna
+```
+<img width="1020" height="232" alt="image" src="https://github.com/user-attachments/assets/8fb3d98c-10d7-436d-8bc9-3400d8235b86" />
+
+<img width="702" height="227" alt="image" src="https://github.com/user-attachments/assets/a72ae888-08ac-4d49-a550-359546397359" />
+
+Indexing the reference genome using BWA generated several auxiliary index files with the extensions .amb, .ann, .bwt, .pac, and .sa. These files contain different indexing information required by BWA to efficiently search the reference genome during read alignment. The original FASTA reference genome was retained, while the generated index files were used by BWA during the subsequent alignment step.
+
+## Alignment of trimmed fastq to the Reference Genome
+Following reference genome indexing, the trimmed sequencing reads were aligned to the Escherichia coli K-12 substr. MG1655 reference genome (ASM584v2) using BWA-MEM. The purpose of alignment was to determine the genomic position of each sequencing read relative to the reference genome. This allows the reads to be mapped to their corresponding regions of the E. coli genome and provides the basis for subsequent analyses such as genome coverage and variant identification. Since the dataset consists of single-end reads, the trimmed FASTQ file was aligned against the indexed reference genome using the bwa mem command. The alignment output was initially generated in SAM (Sequence Alignment/Map) format, which contains information about how each read aligns to the reference genome.  
+
+```bash
+bwa mem GCF_000005845.2_ASM584v2_genomic.fna SRR37624945_trimmed.fastq  > aligned.sam
+```
+<img width="1456" height="210" alt="image" src="https://github.com/user-attachments/assets/0ad5d4f8-7511-41aa-9324-5aff2d029d56" />
+
+<img width="1455" height="537" alt="image" src="https://github.com/user-attachments/assets/d209c4fc-afc7-4fd6-a8ba-bbac810126d5" />
+
+**SAM File – Alignment Output**  
+After alignment using BWA-MEM, the reads were saved in SAM (Sequence Alignment/Map) format.  
+
+The SAM file contains:  
+Header information – describes the reference genome and the software used for alignment.  
+@SQ → gives information about the reference sequence, including its name and length.  
+@PG → records the program and version used to generate the alignment.  
+Alignment records – each subsequent line represents one sequencing read and its alignment to the reference genome.  
+
+Important SAM fields to understand:  
+
+QNAME	Name/ID of the sequencing read  
+FLAG	Indicates the alignment properties, such as strand information  
+RNAME	Reference sequence/chromosome to which the read mapped  
+POS	Starting position of the alignment on the reference  
+MAPQ	Mapping quality/confidence  
+CIGAR	Describes how the read aligns to the reference  
+SEQ	Sequence of the read  
+QUAL	Base quality scores  
+NM	Number of differences between the read and reference  
+MD	Information about mismatches/deletions  
+AS	Alignment score  
+XS	Secondary alignment score  
+
+For example, in the alignment output:  
+
+NC_000913.3 represents the E. coli reference chromosome, and a MAPQ value of 60 indicates a highly confident alignment. A CIGAR value such as 66M indicates that 66 bases of the read were aligned.  
+
+The SAM file is a human-readable alignment format. It will later be converted to BAM, which is the binary and more compact version used for efficient downstream analysis.  
+
+
+
+
 
 
 
