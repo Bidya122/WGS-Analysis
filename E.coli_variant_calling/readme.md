@@ -102,6 +102,12 @@ conda activate bioinfo
 conda install -c bioconda bwa
 ```
 
+**SAMTOOLS Installation**
+```bash
+sudo apt install samtools
+samtools --version
+```
+
 
 ## Data Visualization and Quality Control
 
@@ -262,7 +268,18 @@ NC_000913.3 represents the E. coli reference chromosome, and a MAPQ value of 60 
 
 The SAM file is a human-readable alignment format. It will later be converted to BAM, which is the binary and more compact version used for efficient downstream analysis.  
 
+The SAM alignment file was converted into BAM (Binary Alignment/Map) format using samtools. BAM is the compressed binary version of SAM and is more efficient for storage and downstream analysis. The resulting aligned.bam file contains the same alignment information as the SAM file but in a compressed binary format.    
 
+```bash
+#To convert .sam to .bam
+samtools view -S -b aligned.sam > aligned.bam
+```
+After converting the SAM file to BAM format, the BAM file was sorted based on the position of the reads on the reference genome using Samtools. Sorting the BAM file is important for further steps such as indexing, coverage analysis, and variant calling.
+
+```bash
+#To sort the .bam file
+samtools sort aligned.bam > aligned_sorted.bam
+```
 
 
 
