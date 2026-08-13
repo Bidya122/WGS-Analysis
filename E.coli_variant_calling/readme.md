@@ -166,6 +166,31 @@ SRR37624945.fastq \
 SRR37624945_trimmed.fastq \
 LEADING:20 SLIDINGWINDOW:4:20 MINLEN:36
 ```
+Trimmomatic was used to remove low-quality bases and improve the overall quality of the sequencing reads. The LEADING:20 parameter was used to remove low-quality bases from the beginning of reads, while SLIDINGWINDOW:4:20 removed regions where the average quality score within a 4-base window fell below 20. Reads shorter than 36 bp after trimming were discarded using MINLEN:36, as very short reads may not be suitable for reliable downstream analysis. The Phred+33 quality score encoding was specified using the -phred33 option.
+
+<img width="1463" height="163" alt="image" src="https://github.com/user-attachments/assets/c5988817-e01d-4f09-b20b-437e59380237" />
+
+Following trimming, FastQC was performed again on the trimmed FASTQ file to assess the effectiveness of the quality-control step. The post-trimming FastQC results were compared with the initial quality assessment to confirm the removal of low-quality bases and to check for any remaining quality issues before proceeding with downstream analysis.
+
+```bash
+fastqc SRR37624945_trimmed.fastq
+```
+<img width="851" height="528" alt="image" src="https://github.com/user-attachments/assets/3b0d24da-e415-4b57-a952-2b8ab69361c6" /> 
+
+<img width="1320" height="746" alt="image" src="https://github.com/user-attachments/assets/bf2e9cf9-f7ac-4fdd-8d37-40dd33c838bf" />
+
+<img width="1322" height="743" alt="image" src="https://github.com/user-attachments/assets/107afa0b-f7d2-498e-9317-10e6c527d903" />
+
+<img width="1070" height="776" alt="image" src="https://github.com/user-attachments/assets/f569f5c7-a744-4c89-bff2-ed2ef8f3ecdb" />
+
+Additional trimming was not performed because the post-trimming FastQC report showed a substantial improvement in overall sequence quality. The Per Base Sequence Quality module showed consistently high Phred scores, predominantly above Q40, across most of the read length, indicating excellent base-level sequencing quality. However, the Per Base Sequence Content module remained flagged due to variations in the proportions of A, T, G, and C at different positions. Since this dataset represents whole-genome sequencing of E. coli, variations in nucleotide composition may reflect the underlying genomic sequence composition as well as technical factors introduced during library preparation. Further quality trimming was therefore not considered necessary, as it was unlikely to correct the observed sequence-content variation and could result in unnecessary loss of useful genomic sequence. After trimming, the sequence length distribution showed a predominance of shorter reads, with most sequences concentrated below approximately 300 bp. The presence of a smaller number of longer reads indicates variation in read length following trimming. FastQC assigned a warning to this parameter, which is consistent with the variable read lengths produced during quality trimming.    
+
+
+
+
+
+
+
 
 
 
