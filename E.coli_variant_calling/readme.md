@@ -41,6 +41,8 @@ But if you directly want to uncompress using the terminal then below is the comm
 ```
 gunzip SRR37624945.fastq.gz
 ```
+
+
 ## Installation of Tools
 **SRA Toolkit Installation - necessary to access, download, and convert sequencing data from the NCBI Sequence Read Archive (SRA) into usable formats for analysis.**  
 ```bash
@@ -85,6 +87,21 @@ cd Trimmomatic-0.39
 You should see something like this 
 
 <img width="707" height="48" alt="image" src="https://github.com/user-attachments/assets/23194517-1525-43e9-b683-16d0a4251759" />
+
+**BWA Installation**
+
+```bash
+#Using APT (Ubuntu/WSL)
+sudo apt update
+sudo apt install bwa
+```
+```bash
+#Using Conda (Bioconda)
+conda create -n bioinfo -y
+conda activate bioinfo
+conda install -c bioconda bwa
+```
+
 
 ## Data Visualization and Quality Control
 
@@ -184,6 +201,19 @@ fastqc SRR37624945_trimmed.fastq
 <img width="1070" height="776" alt="image" src="https://github.com/user-attachments/assets/f569f5c7-a744-4c89-bff2-ed2ef8f3ecdb" />
 
 Additional trimming was not performed because the post-trimming FastQC report showed a substantial improvement in overall sequence quality. The Per Base Sequence Quality module showed consistently high Phred scores, predominantly above Q40, across most of the read length, indicating excellent base-level sequencing quality. However, the Per Base Sequence Content module remained flagged due to variations in the proportions of A, T, G, and C at different positions. Since this dataset represents whole-genome sequencing of E. coli, variations in nucleotide composition may reflect the underlying genomic sequence composition as well as technical factors introduced during library preparation. Further quality trimming was therefore not considered necessary, as it was unlikely to correct the observed sequence-content variation and could result in unnecessary loss of useful genomic sequence. After trimming, the sequence length distribution showed a predominance of shorter reads, with most sequences concentrated below approximately 300 bp. The presence of a smaller number of longer reads indicates variation in read length following trimming. FastQC assigned a warning to this parameter, which is consistent with the variable read lengths produced during quality trimming.    
+
+
+## Reference Genome Download    
+The dataset was identified as Escherichia coli K-12. Based on the strain information, E. coli K-12 MG1655 was selected as the reference strain. The corresponding reference genome assembly, ASM584v2, was obtained from the NCBI genome database in FASTA format. This reference genome was subsequently used for alignment of the trimmed sequencing reads.  
+
+Go to NCBI > Search "E coli K12 NCBI Genome" > Select of the correct strain and substrain and download the reference genome.    
+[Click to Download Reference Genome](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000005845.2/)    
+
+
+
+
+
+
 
 
 
