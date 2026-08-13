@@ -142,6 +142,25 @@ The Y-axis represents the number of reads, while the X-axis represents the mean 
 
 The sequence content shows substantial variation in nucleotide composition at the beginning of the reads, resulting in a FastQC failure. At the first few positions (1–9 bp), the nucleotide percentages fluctuate considerably. For example, C reaches ~47% at position 2, while G reaches ~46% at position 4. After the initial region, the four nucleotide lines become very close and stable around ~25% each. So, after the initial bases, the A, T, G and C contents become stable and remain close to 25% each, indicating a balanced and consistent nucleotide composition across the majority of the reads.
 
+<img width="1002" height="747" alt="image" src="https://github.com/user-attachments/assets/aa478848-502c-4f93-988f-88c12e14a471" />
+
+The per-sequence GC content shows that most reads have a GC content of approximately 52–53%. Although the observed distribution is broadly close to the theoretical distribution, some deviation is evident, particularly in the shape and width of the distribution. Therefore, FastQC has flagged this parameter as failed. However, the overall GC content is reasonably consistent with that expected for E. coli, and this result alone does not necessarily indicate a major quality problem or contamination.    
+
+<img width="1022" height="727" alt="image" src="https://github.com/user-attachments/assets/8b12dcee-bdb5-4609-bce9-ca522b820a12" />
+
+No unknown bases detected.
+
+<img width="990" height="722" alt="image" src="https://github.com/user-attachments/assets/f1b3a08c-6caa-49b0-9d27-8b2aca1fbc58" />
+
+The sequence length distribution shows that most reads are concentrated within the shorter sequence-length range, with a sharp decrease in read counts as sequence length increases. A small number of longer reads are also present, indicating variability in read lengths. FastQC has therefore assigned a warning for this parameter.   
+
+The remaining FastQC parameters, including sequence duplication levels, overrepresented sequences, and adapter content, showed no significant abnormalities. The absence of excessive sequence duplication suggests good library complexity, while no overrepresented sequences or adapter contamination indicates that the reads are not substantially affected by unwanted sequence enrichment or adapter contamination. Overall, these parameters indicate good sequencing quality.    
+
+
+
+
+
+
 
 
 
