@@ -280,9 +280,12 @@ After converting the SAM file to BAM format, the BAM file was sorted based on th
 #To sort the .bam file
 samtools sort aligned.bam > aligned_sorted.bam
 ```
+After sorting the BAM file, the next step was indexing the .bam file. Indexing creates a .bai index file that acts like a map of the sorted BAM file. A sorted BAM contains reads arranged according to their genomic coordinates, and the index allows tools such as samtools and genome browsers like IGV to efficiently locate and retrieve reads from particular regions. 
 
-
-
+```bash
+#To sort the bam file
+samtools index alignment_sorted.bam
+```
 
 
 
