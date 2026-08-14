@@ -287,8 +287,18 @@ After sorting the BAM file, the next step was indexing the .bam file. Indexing c
 samtools index alignment_sorted.bam
 ```
 
+## IGV Visualization
+After indexing the sorted BAM file, I loaded it into IGV to visually inspect the alignment of sequencing reads against the E. coli reference genome and I have recorded my observations below. 
 
+<img width="1424" height="994" alt="image" src="https://github.com/user-attachments/assets/341bf547-0deb-4bff-a7a0-a108e5b95511" />
 
+<img width="1420" height="989" alt="image" src="https://github.com/user-attachments/assets/068972da-08af-4b56-8907-bcdf4bd8a95b" />
+
+At genomic position NC_000913.3:101,770, the reference sequence contains C, while one aligned read contains G, indicating a C → G mismatch. The selected read has a MAPQ of 60 and a base quality of QV 36, indicating high-confidence mapping and a high-quality base call. The selected read is 265 bp long, has a MAPQ of 60, QV 36, CIGAR 265M, and NM=1. The read is aligned to the reverse strand (FLAG 16). However, the mismatch is observed in only one of the reads covering this position, while the remaining reads agree with the reference. Therefore, this observation is recorded as a read-level mismatch and not considered a confirmed variant. Examining multiple reads at the same genomic position is important before interpreting a mismatch as a potential variant.  
+
+To better understand the different components displayed in IGV, I created the following labelled diagram.
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/8e120fdd-377d-4424-a38b-220065b40ecf" />
 
 
 
