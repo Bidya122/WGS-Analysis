@@ -307,7 +307,42 @@ To better understand the different components displayed in IGV, I created the fo
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/8e120fdd-377d-4424-a38b-220065b40ecf" />
 
 ## Variant Calling
+After visualizing the aligned reads in IGV, the next step was to identify potential variants in the E. coli genome. The samtools mpileup command was used to examine the bases present at each genomic position based on the aligned reads in the sorted BAM file. The resulting mpileup file contains position-wise information about the reference base, read depth, bases observed in the reads, and base-quality information. This information provides the evidence required for identifying potential SNPs and indels during the subsequent variant-calling step. So basically the purpose of this step is to summarize the sequencing reads at each genomic position and generate the input evidence for variant calling.
 
+```bash
+samtools mplieup -f GCF_000005845.2_ASM584v2_genomic.fna  aligned_sorted.bam > output.mpileup
+```
+<img width="1778" height="510" alt="image" src="https://github.com/user-attachments/assets/e0df540f-8bf8-4ce7-ba8e-339270e9fbd6" />
+
+The generated mpileup file was inspected using head to verify the output. The file contains position-wise information for the reference sequence, including the genomic position, reference nucleotide, read depth, bases observed in the aligned reads, and base-quality scores. The . and , symbols indicate bases matching the reference on the forward and reverse strands, respectively. This output provides the read-level evidence used for subsequent variant calling.
+
+| Column | Example from output      | What it represents                                            |
+| ------ | ------------------------ | ------------------------------------------------------------- |
+| 1      | `NC_000913.3`            | Reference sequence/chromosome                                 |
+| 2      | `1`                      | Genomic position                                              |
+| 3      | `A`                      | Reference nucleotide at that position                         |
+| 4      | `2`                      | Read depth/coverage — number of reads covering the position   |
+| 5      | `^].^].`                 | Bases observed in the reads, along with alignment information |
+| 6      | `EE`                     | Base-quality scores encoded using ASCII characters            |
+
+| Symbol    | Meaning                                                 |
+| --------- | ------------------------------------------------------- |
+| `.`       | Read base matches the reference on the forward strand   |
+| `,`       | Read base matches the reference on the reverse strand   |
+| `A/C/G/T` | Base observed in a read that differs from the reference |
+| `^`       | Beginning of a read/alignment segment                   |
+| `$`       | End of a read                                           |
+| `+`       | Insertion relative to the reference                     |
+| `-`       | Deletion relative to the reference                      |
+
+So, 
+| Position | Reference | Depth | Observed bases | Interpretation                    |
+| -------: | --------- | ----: | -------------- | --------------------------------- |
+|        1 | A         |     2 | `^].^].`       | Read-start information is present |
+|        2 | G         |     2 | `.,`           | Both reads match the reference    |
+|        3 | C         |     2 | `.,`           | Both reads match the reference    |
+|        4 | T         |     2 | `.,`           | Both reads match the reference    |
+|        5 | T         |     2 | `.,`           | Both reads match the reference    |
 
 
 
