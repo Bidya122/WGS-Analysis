@@ -108,6 +108,11 @@ sudo apt install samtools
 samtools --version
 ```
 
+**BCFTOOLS Installation**
+```bash
+sudo apt install bcftools
+```
+
 
 ## Data Visualization and Quality Control
 
@@ -343,6 +348,45 @@ So,
 |        3 | C         |     2 | `.,`           | Both reads match the reference    |
 |        4 | T         |     2 | `.,`           | Both reads match the reference    |
 |        5 | T         |     2 | `.,`           | Both reads match the reference    |
+
+After alignment and visualization of the reads in IGV, variant calling was performed using BCFtools. The bcftools mpileup command was used to generate genotype likelihoods from the aligned reads, and bcftools call was then used to identify potential variants such as SNPs and indels. Here, the reference genome was provided using -f, while the sorted BAM file containing the aligned reads was used as input. The output from bcftools mpileup was passed directly to bcftools call using the pipe (|).    
+The -m option enables the multiallelic variant caller, while -v reports variant sites only. The -Ov option specifies VCF as the output format. The resulting variants were saved in variants.vcf. The generated VCF file contains the candidate variants identified from the sequencing data and will be used for subsequent variant filtering and validation using IGV.    
+
+<img width="1852" height="97" alt="image" src="https://github.com/user-attachments/assets/23440e6b-88da-4024-9707-467861b8ce88" />
+
+After aligning the sequencing reads to the E. coli reference genome and visualizing the alignments in IGV, the next step is to identify genomic positions that differ from the reference sequence. These differences may include single nucleotide variants (SNVs/SNPs) and small insertions or deletions (indels). 
+
+```bash
+bcftools mpileup -f GCF_000005845.2_ASM584v2_genomic.fna aligned_sorted.bam | bcftools call -mv -Ov > variants.vcf
+cat variants.vcf
+```
+<img width="1905" height="641" alt="image" src="https://github.com/user-attachments/assets/3ebe050b-a835-40d2-b792-da54c9720886" />
+
+| Column               | Meaning                                               | Example from your file |
+| -------------------- | ----------------------------------------------------- | ---------------------- |
+| `CHROM`              | Reference chromosome/sequence                         | `NC_000913.3`          |
+| `POS`                | Genomic position of the variant                       | `49348`                |
+| `ID`                 | Variant identifier, if available                      | `.`                    |
+| `REF`                | Base/sequence present in the reference                | `.` / `G` / `C` etc.   |
+| `ALT`                | Alternative base/sequence detected                    | `G`, `C`, `T`, etc.    |
+| `QUAL`               | Quality/confidence score assigned to the variant call | `110.415`              |
+| `FILTER`             | Filtering status                                      | `.`                    |
+| `INFO`               | Additional information about the variant              | `DP=4;...`             |
+| `FORMAT`             | Describes the sample-specific fields                  | `GT:PL`                |
+| `aligned_sorted.bam` | Your sample's genotype information                    | `1/1:36,3,0`           |
+
+write about the data u got here.................................
+
+The generated VCF file was inspected to understand the called variants. Each variant record contains information about its genomic position, reference allele (REF), alternative allele (ALT), quality score (QUAL), read depth and other supporting information. The results included both single-nucleotide variants (SNPs) and small insertions/deletions (indels). Since the initial variant calls may contain low-confidence calls, further filtering based on parameters such as read depth and variant quality, followed by visual validation in IGV, is required before considering them high-confidence variants.
+
+So, to filter out the data 
+```bash
+ bcftools filter -i 'DP>=10 && QUAL>=20' variants.vcf
+```
+
+
+
+
 
 
 
