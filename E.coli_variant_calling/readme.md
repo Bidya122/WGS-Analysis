@@ -294,11 +294,21 @@ After indexing the sorted BAM file, I loaded it into IGV to visually inspect the
 
 <img width="1420" height="989" alt="image" src="https://github.com/user-attachments/assets/068972da-08af-4b56-8907-bcdf4bd8a95b" />
 
-At genomic position NC_000913.3:101,770, the reference sequence contains C, while one aligned read contains G, indicating a C → G mismatch. The selected read has a MAPQ of 60 and a base quality of QV 36, indicating high-confidence mapping and a high-quality base call. The selected read is 265 bp long, has a MAPQ of 60, QV 36, CIGAR 265M, and NM=1. The read is aligned to the reverse strand (FLAG 16). However, the mismatch is observed in only one of the reads covering this position, while the remaining reads agree with the reference. Therefore, this observation is recorded as a read-level mismatch and not considered a confirmed variant. Examining multiple reads at the same genomic position is important before interpreting a mismatch as a potential variant.  
+<img width="1912" height="936" alt="image" src="https://github.com/user-attachments/assets/21b8c9aa-958f-4302-bb80-22319e83c145" />
+
+<img width="1899" height="959" alt="image" src="https://github.com/user-attachments/assets/0f93940a-3bcf-4800-b60d-4dc41d1065c3" />
+
+
+
+At genomic position NC_000913.3:101,770, the reference sequence contains C, while one aligned read contains G, indicating a C → G mismatch. The selected read has a MAPQ of 60 and a base quality of QV 36, indicating high-confidence mapping and a high-quality base call. The selected read is 265 bp long, has a MAPQ of 60, QV 36, CIGAR 265M, and NM=1. The read is aligned to the reverse strand (FLAG 16). I also saw an Insertion of one of the base C which is again worth investigating because its a variant and IGV shows possible differences from the reference genome. However, the mismatch is observed in only one of the reads covering this position, while the remaining reads agree with the reference. Therefore, this observation is recorded as a read-level mismatch and not considered a confirmed variant. Examining multiple reads at the same genomic position is important before interpreting a mismatch as a potential variant.  
 
 To better understand the different components displayed in IGV, I created the following labelled diagram.
 
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/8e120fdd-377d-4424-a38b-220065b40ecf" />
+
+## Variant Calling
+
+
 
 
 
