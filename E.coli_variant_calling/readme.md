@@ -392,15 +392,50 @@ The filtered VCF was inspected to determine the number of variants that passed t
 
 ## Inspection of the output data
 Because the filtering removed all the potential variants I wanted to check if any of them were actually worth reporting. The initial variant records were manually inspected to examine genomic position, reference and alternate alleles, variant quality, and read depth.
+
 ```bash
 bcftools view -H variants.vcf | head
 ```
-
 <img width="1456" height="485" alt="image" src="https://github.com/user-attachments/assets/2dad3d5c-2d0c-456f-9456-511396ec77fe" /> 
 
+Here it showed depth to be the main reason why from the 124 potential variants none passed the filter. Then to get an idea about the whole data. Mean sequencing depth was calculated using samtools depth. The dataset showed an average depth of approximately 3.16×, indicating relatively shallow sequencing coverage. 
 
+```bash
+#To check the average sequencing depth. sum of all depths ÷ number of positions
+ samtools depth aligned_sorted.bam | awk '{sum+=$3; count++} END {print "Average depth:", sum/count}'
+```
+<img width="1453" height="75" alt="image" src="https://github.com/user-attachments/assets/f7a09a73-6da1-452f-9159-d3d090962b31" />
 
+Mean sequencing depth was calculated using samtools depth. The dataset showed an average depth of approximately 3.16×, indicating relatively shallow sequencing coverage. As the mean depth was so low I wanted to check the alignment statistics of the dataset and vcf file.
 
+```bash
+#Alignment QC
+samtools flagstat aligned_sorted.bam
+```
+<img width="954" height="394" alt="image" src="https://github.com/user-attachments/assets/8965f2d2-b1b9-4937-9eef-4b2edecb93ae" />
+
+Alignment statistics were assessed using samtools flagstat. Of the 74,716 reads, 74,559 (99.79%) mapped to the reference genome, indicating excellent alignment efficiency. No duplicate reads were detected. As this came out fine, I wanted to check the Coverage Statistics
+
+```bash
+#Coverage QC
+samtools coverage aligned_sorted.bam
+```
+
+<img width="1453" height="67" alt="image" src="https://github.com/user-attachments/assets/752b8822-d9b5-479b-8dcb-d3874f0467d4" />
+
+Genome-wide coverage was assessed using samtools coverage. Approximately 93.09% of the reference genome was covered, with a mean depth of 2.94×. The mean base quality (41.7) and mapping quality (58.5) were high, indicating good read and alignment quality despite the relatively low sequencing depth. Then as the coverage and alignment showed no problem I wanted to check the distribution of sequencing depth. 
+
+```bash
+ samtools depth aligned_sorted.bam | awk '{print $3}' | sort -n | uniq -c
+```
+<img width="1315" height="465" alt="image" src="https://github.com/user-attachments/assets/8dde0056-7ff0-4bdd-b918-8867504f6828" />
+
+So, this made the whole picture much clearer.   
+773,753 positions have 1 read covering them.   
+1,034,427 positions have 2 reads  
+955,324 positions have 3 reads  
+691,252 positions have 4 reads  
+This shows that most of your genome has very shallow coverage. The distribution of per-base sequencing depth was examined to assess coverage uniformity. Most genomic positions were covered at approximately 1–4× depth, confirming that the dataset provides broad but shallow genome coverage. 
 
 
 
