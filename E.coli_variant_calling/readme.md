@@ -381,7 +381,7 @@ The generated VCF file was inspected to understand the called variants. Each var
 
 So, to filter out the data 
 ```bash
- bcftools filter -i 'DP>=10 && QUAL>=20' variants.vcf
+ bcftools filter -i 'DP>=10 && QUAL>=20' filtered_variants.vcf
 ```
 
 
