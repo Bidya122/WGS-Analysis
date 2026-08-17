@@ -375,7 +375,6 @@ cat variants.vcf
 | `FORMAT`             | Describes the sample-specific fields                  | `GT:PL`                |
 | `aligned_sorted.bam` | Your sample's genotype information                    | `1/1:36,3,0`           |
 
-write about the data u got here.................................
 
 The generated VCF file was inspected to understand the called variants. Each variant record contains information about its genomic position, reference allele (REF), alternative allele (ALT), quality score (QUAL), read depth and other supporting information. The results included both single-nucleotide variants (SNPs) and small insertions/deletions (indels). Since the initial variant calls may contain low-confidence calls, further filtering based on parameters such as read depth and variant quality, followed by visual validation in IGV, is required before considering them high-confidence variants.
 
@@ -383,6 +382,21 @@ So, to filter out the data
 ```bash
  bcftools filter -i 'DP>=10 && QUAL>=20' filtered_variants.vcf
 ```
+```bash
+#to check how many variants are recorded in .vcf file
+bcftools view -H filtered_variants.vcf | wc -l
+```
+<img width="1045" height="101" alt="image" src="https://github.com/user-attachments/assets/65efde4f-8cea-41ec-b7d8-92e1684dab42" />
+
+The filtered VCF was inspected to determine the number of variants that passed the predefined filtering criteria. No variants passed the applied thresholds. So, I did some checking of the .vcf file to investigate and found variants.vcf which was the unfiltered VCF contained 124 candidate variant records identified during variant calling. These variants were subsequently evaluated based on sequencing depth and variant quality. 
+
+## Inspection of the output data
+Because the filtering removed all the potential variants I wanted to check if any of them were actually worth reporting. The initial variant records were manually inspected to examine genomic position, reference and alternate alleles, variant quality, and read depth.
+```bash
+bcftools view -H variants.vcf | head
+```
+
+<img width="1456" height="485" alt="image" src="https://github.com/user-attachments/assets/2dad3d5c-2d0c-456f-9456-511396ec77fe" /> 
 
 
 
