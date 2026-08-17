@@ -484,8 +484,26 @@ Result: DP = 1–12×, QUAL = 3.18–153.42
 
 The candidate variants showed relatively low read support, with a mean depth of 2.83× and a range of 1–12×. Variant quality also varied considerably, with QUAL scores ranging from 3.18 to 153.42. This assessment was useful for determining the confidence of the preliminary calls and evaluating the effect of subsequent filtering criteria indicating that many candidate calls were supported by relatively few reads.
 
+Since none of the 124 preliminary variant calls satisfied both the DP ≥10 and QUAL ≥20 criteria, the candidate calls were further examined to determine whether any variants met either criterion individually. This was done to assess whether the absence of filtered variants was due to both thresholds being simultaneously restrictive, particularly given the low overall sequencing depth of the dataset.
 
+```bash
+#with depth as filter
+bcftools query -f '%QUAL\t%INFO/DP\n' variants.vcf |
+awk '$2 >= 10 {n++} END {print "Variants with DP >=10:",n}'
 
+#with qual as filter
+bcftools query -f '%QUAL\t%INFO/DP\n' variants.vcf |
+awk '$1 >= 20 {n++} END {print "Variants with QUAL >=20:",n}'
+
+#with both as filter
+bcftools query -f '%QUAL\t%INFO/DP\n' variants.vcf |
+awk '$2 >= 10 && $1 >= 20 {n++} END {print "Variants with DP >=10 AND QUAL >=20:", n+0}'
+```
+Results: DP ≥10: 1 candidate
+QUAL ≥20: 21 candidates
+Both: 0 candidates
+
+<img width="1092" height="278" alt="image" src="https://github.com/user-attachments/assets/52f29915-0247-47cb-b632-455ebe2107e8" />
 
 
 
