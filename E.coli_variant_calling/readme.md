@@ -435,7 +435,55 @@ So, this made the whole picture much clearer.
 1,034,427 positions have 2 reads  
 955,324 positions have 3 reads  
 691,252 positions have 4 reads  
-This shows that most of your genome has very shallow coverage. The distribution of per-base sequencing depth was examined to assess coverage uniformity. Most genomic positions were covered at approximately 1–4× depth, confirming that the dataset provides broad but shallow genome coverage. 
+This shows that most of your genome has very shallow coverage. The distribution of per-base sequencing depth was examined to assess coverage uniformity. Most genomic positions were covered at approximately 1–4× depth, confirming that the dataset provides broad but shallow genome coverage.   
+
+Then in the total number of 124 variants I wanted to know how many of them are SNPs and Indels.   
+```bash
+#to count SNP variants
+bcftools view -H -v snps variants.vcf | wc -l
+
+#To count indels
+bcftools view -H -v indels variants.vcf | wc -l
+```
+
+<img width="1018" height="95" alt="image" src="https://github.com/user-attachments/assets/0ec4777c-8580-4465-b823-fb84b152bbc4" />
+
+The 124 candidate variants consisted of 87 SNPs (70.2%) and 37 indels (29.8%), indicating that SNPs represented the majority of the preliminary variant calls. Then I performed a Variant-level quality assessment.   
+After identifying 124 candidate variants, their sequencing depth (DP) and variant quality (QUAL) were assessed to understand the reliability and confidence of the preliminary variant calls. The mean and range of these values were calculated to evaluate the overall support for the detected variants and the variation in quality among individual calls.  
+
+The mean sequencing depth and mean QUAL score were calculated to obtain an overall assessment of the read support and quality of the 124 candidate variants.
+
+```bash
+ bcftools query -f '%QUAL\t%INFO/DP\n' variants.vcf |
+awk '{sumDP+=$2; sumQ+=$1; n++} END {print "Variants:",n, "Mean DP:",sumDP/n, "Mean QUAL:",sumQ/n}'
+```
+<img width="1226" height="70" alt="image" src="https://github.com/user-attachments/assets/f9f5c613-b085-4e65-9ee9-afd1d594c6f7" />
+
+Result: Mean DP = 2.83×, Mean QUAL = 18.23
+
+The minimum and maximum DP and QUAL values were then calculated to determine the variation in sequencing support and confidence across individual candidate variants.
+
+```bash
+bcftools query -f '%QUAL\t%INFO/DP\n' variants.vcf |
+awk 'BEGIN{minDP=999999; maxDP=0; minQ=999999; maxQ=0}
+{
+if($2<minDP)minDP=$2;
+if($2>maxDP)maxDP=$2;
+if($1<minQ)minQ=$1;
+if($1>maxQ)maxQ=$1
+}
+END{
+print "DP range:",minDP,"-",maxDP;
+print "QUAL range:",minQ,"-",maxQ
+}'
+```
+
+<img width="1069" height="328" alt="image" src="https://github.com/user-attachments/assets/b0ecaa83-78f2-474e-9420-5ea8f1841d1f" />
+
+Result: DP = 1–12×, QUAL = 3.18–153.42
+
+The candidate variants showed relatively low read support, with a mean depth of 2.83× and a range of 1–12×. Variant quality also varied considerably, with QUAL scores ranging from 3.18 to 153.42. This assessment was useful for determining the confidence of the preliminary calls and evaluating the effect of subsequent filtering criteria indicating that many candidate calls were supported by relatively few reads.
+
 
 
 
