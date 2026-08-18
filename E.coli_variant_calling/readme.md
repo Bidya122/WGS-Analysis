@@ -514,6 +514,24 @@ I wanted to then check the 21 variants that were reported under QUAL ≥20 crite
 <img width="861" height="530" alt="image" src="https://github.com/user-attachments/assets/ee9656ff-fddc-4ab1-b855-15a94555c6f7" />
 
 
+I then checked the variants on IGV for the interpretation. 
+**1. The first variant:**
+<img width="860" height="54" alt="image" src="https://github.com/user-attachments/assets/489d3e6c-0c54-4ac2-ad14-4390e496e52d" />
+
+<img width="1683" height="883" alt="image" src="https://github.com/user-attachments/assets/b0d449b8-2cff-480a-a1d7-b9a9f69cdd2f" />
+
+The variant at NC_000913.3:70289 (G>T) had a variant quality (QUAL) of 110.415 and a read depth (DP) of 4. IGV inspection showed that all four reads covering the position supported the alternate T allele. The alternate allele was observed on both forward and reverse strands (2 reads on each strand). The mapping quality was 60. The variant therefore showed consistent read-level support in IGV, although the low coverage (DP=4) limits the confidence of the call. So its supported by the available reads, but requires caution due to low sequencing depth.    
+
+**2. Variant two:**
+<img width="862" height="50" alt="image" src="https://github.com/user-attachments/assets/6dd526ce-bb99-43a4-a232-4f244d2287c7" />
+
+<img width="1900" height="963" alt="image" src="https://github.com/user-attachments/assets/0ec5d66d-2228-4acd-a0a3-e2218bf905d8" />
+
+The variant at NC_000913.3:578452 (TCCCCCC>TCCCCC) had a QUAL score of 28.32, read depth of 7, and mapping quality of 35. In IGV, the anchor position 578452 is covered by 7 reads. The deletion becomes visually evident at the adjacent position 578453, where 3 reads retain the reference C and 4 reads show a deletion. This is consistent with the VCF representation of the one-base deletion.
+The four deletion-supporting reads are observed on the forward strand, while the reference-supporting reads are present on both strands. The variant also occurs in a C-rich sequence context. So, The VCF call is consistent with the read-level evidence in IGV. However, the candidate has relatively low coverage and strand-biased alternate support in a C-rich sequence context, so it should be treated as a low-confidence candidate requiring further review.
+
+
+
 
 
 
