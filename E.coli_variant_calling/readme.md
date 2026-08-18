@@ -388,7 +388,7 @@ bcftools view -H filtered_variants.vcf | wc -l
 ```
 <img width="1045" height="101" alt="image" src="https://github.com/user-attachments/assets/65efde4f-8cea-41ec-b7d8-92e1684dab42" />
 
-The filtered VCF was inspected to determine the number of variants that passed the predefined filtering criteria. No variants passed the applied thresholds. So, I did some checking of the .vcf file to investigate and found variants.vcf which was the unfiltered VCF contained 124 candidate variant records identified during variant calling. These variants were subsequently evaluated based on sequencing depth and variant quality. 
+Initial variant filtering using QUAL ≥20 and DP ≥10 resulted in no retained variants because all candidate calls had INFO-level DP below the predefined threshold. To avoid prematurely excluding potentially informative calls, variants meeting the QUAL criterion were retained as an exploratory candidate set. Twenty-one candidates were subsequently evaluated using read-level evidence in IGV, including coverage, alternate-allele support, strand representation, mapping quality, and local alignment context.
 
 ## Inspection of the output data
 Because the filtering removed all the potential variants I wanted to check if any of them were actually worth reporting. The initial variant records were manually inspected to examine genomic position, reference and alternate alleles, variant quality, and read depth.
@@ -504,6 +504,15 @@ QUAL ≥20: 21 candidates
 Both: 0 candidates
 
 <img width="1092" height="278" alt="image" src="https://github.com/user-attachments/assets/52f29915-0247-47cb-b632-455ebe2107e8" />
+
+I wanted to then check the 21 variants that were reported under QUAL ≥20 criteria on IGV to check if any of them qualify to be a true variant. 
+
+```bash
+ { echo -e "CHROM\tPOS\tREF\tALT\tQUAL\tDP\tDP4\tMQ"; bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%QUAL\t%INFO/DP\t%INFO/DP4\t%INFO/MQ\n' variants.vcf | awk '$5 >= 20'; } > qual20_candidates.tsv
+```
+
+<img width="861" height="530" alt="image" src="https://github.com/user-attachments/assets/ee9656ff-fddc-4ab1-b855-15a94555c6f7" />
+
 
 
 
