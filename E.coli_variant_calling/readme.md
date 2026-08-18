@@ -530,6 +530,16 @@ The variant at NC_000913.3:70289 (G>T) had a variant quality (QUAL) of 110.415 a
 The variant at NC_000913.3:578452 (TCCCCCC>TCCCCC) had a QUAL score of 28.32, read depth of 7, and mapping quality of 35. In IGV, the anchor position 578452 is covered by 7 reads. The deletion becomes visually evident at the adjacent position 578453, where 3 reads retain the reference C and 4 reads show a deletion. This is consistent with the VCF representation of the one-base deletion.
 The four deletion-supporting reads are observed on the forward strand, while the reference-supporting reads are present on both strands. The variant also occurs in a C-rich sequence context. So, The VCF call is consistent with the read-level evidence in IGV. However, the candidate has relatively low coverage and strand-biased alternate support in a C-rich sequence context, so it should be treated as a low-confidence candidate requiring further review.
 
+**3. Variant three:**
+<img width="863" height="50" alt="image" src="https://github.com/user-attachments/assets/7a93b0a0-a9d0-4350-9ebd-07e2d6c57748" />
+
+<img width="1907" height="992" alt="image" src="https://github.com/user-attachments/assets/94111319-f5e6-46ef-bc24-f2009a090919" />
+
+The variant at NC_000913.3:705013 (T>C) had a QUAL score of 115.415, read depth of 4, and mapping quality of 60. IGV inspection showed that all four reads covering the position supported the alternate C allele. The alternate allele was observed on both strands, with 3 forward-strand and 1 reverse-strand reads. No reads supporting the reference T allele were observed. The variant shows consistent read-level support with high mapping quality and representation on both strands. However, the low coverage (DP=4) limits confidence in the call. It was therefore considered a promising candidate requiring further validation. 
+
+
+
+
 
 
 
