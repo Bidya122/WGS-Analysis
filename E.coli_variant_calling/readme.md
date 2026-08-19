@@ -623,6 +623,95 @@ grep "^>" ~/VC_E.coli/GCF_000005845.2_ASM584v2_genomic.fna | head
 ```
 <img width="1899" height="464" alt="image" src="https://github.com/user-attachments/assets/7e73a052-67db-4e0e-853b-93c2b9dcba9b" />
 
+```bash
+#downloading the correct snpeff database
+snpEff download Escherichia_coli_str_k_12_substr_mg1655_gca_000005845
+```
+```bash
+#check the downloaded database
+snpEff databases | grep -i "mg1655_gca_000005845"
+```
+<img width="1897" height="163" alt="image" src="https://github.com/user-attachments/assets/1952f81d-d88d-4d24-b001-851b33ed243e" />
+
+So, earlier in the variants.vcf file we had 124 variants. I extracted 21 from it the ones which qualified QUAL equal to or more than 20 and made another vcf with it. 
+
+```bash
+#To extract the candidates from variants.vcf file using the tsv file containing 21 candidates and putting it in candidates_21.vcf file
+awk 'BEGIN{FS=OFS="\t"} NR==FNR {if (NR>1) pos[$1,$2]=1; next} /^#/ {print; next} (($1,$2) in pos)' qual20_candidates.tsv variants.vcf > candidates_21.vcf
+```
+```
+#To check the length of the file
+grep -v "^#" candidates_21.vcf | wc -l
+```
+```bash
+#To check the content of file
+grep -v "^#" candidates_21.vcf
+```
+
+<img width="1898" height="446" alt="image" src="https://github.com/user-attachments/assets/022c30f6-bb67-4f59-985b-f1f974dcd994" />
+
+Then I ran the annotation command again,
+```bash
+ snpEff Escherichia_coli_str_k_12_substr_mg1655_gca_000005845 candidates_21.vcf > candidates_21_annotated.vcf
+```
+```bash
+grep -v "^#" candidates_21_annotated.vcf | head -3
+```
+Upon checking the annotated vcf I saw that it was throwing an error saying chromosome wasn't found but I did the preliminary check of my data, so to troubleshoot this I ran a few more commands
+
+```bash
+#To check the ecoli database that we were using and why it was not identifying the chromosome
+ snpEff dump Escherichia_coli_str_k_12_substr_mg1655_gca_000005845 | grep -i "chromosome\|sequence" | head -20
+```
+<img width="1902" height="605" alt="image" src="https://github.com/user-attachments/assets/1e175caa-162e-4b4b-adce-4c3f041182e0" />
+
+So I noticed that SnpEff database calls the genome sequence Chromosome, whereas my vcf file calls it NC_000913.3. So I just changed the chromosome number to chromosome. 
+Reference genome: Escherichia coli K-12 MG1655 (GCF_000005845.2), with chromosome accession NC_000913.3.  
+SnpEff database chromosome identifier: Chromosome.  
+The VCF chromosome field was adjusted from NC_000913.3 to Chromosome to match the chromosome identifier used by the SnpEff annotation database.  
+
+```bash
+awk 'BEGIN{OFS="\t"} /^#/ {print; next} {$1="Chromosome"; print}' candidates_21.vcf > candidates_21_snpeff.vcf
+```
+```bash
+grep -v "^#" candidates_21_snpeff.vcf | head -3
+```
+
+<img width="1856" height="62" alt="image" src="https://github.com/user-attachments/assets/6f48d27a-eb9f-4851-8467-96b9ae773c60" />    
+
+Now I annotated it again,
+```bash
+snpEff Escherichia_coli_str_k_12_substr_mg1655_gca_000005845 candidates_21_snpeff.vcf > candidates_21_annotated.vcf
+```
+```bash
+##To clean the .vcf file for easier visulaization in a .tsv file
+ awk -F'\t' '
+BEGIN {
+    OFS="\t";
+    print "CHROM","POS","REF","ALT","QUAL","DP","MQ","EFFECT","IMPACT","GENE","GENE_ID","HGVS_C","HGVS_P"
+}
+!/^#/ {
+    dp="NA"; mq="NA"; ann="NA"
+
+    n=split($8, info, ";")
+    for(i=1;i<=n;i++) {
+        if(info[i] ~ /^DP=/) {
+            split(info[i],a,"="); dp=a[2]
+        }
+        if(info[i] ~ /^MQ=/) {
+            split(info[i],a,"="); mq=a[2]
+        }
+        if(info[i] ~ /^ANN=/) {
+            sub(/^ANN=/,"",info[i]); ann=info[i]
+        }
+    }
+
+    split(ann, a, "|")
+
+    print $1,$2,$4,$5,$6,dp,mq,a[2],a[3],a[4],a[5],a[10],a[11]
+}' candidates_21_annotated.vcf > candidates_21_annotation.tsv
+```
+
 
 
 
