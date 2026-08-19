@@ -505,7 +505,7 @@ Both: 0 candidates
 
 <img width="1092" height="278" alt="image" src="https://github.com/user-attachments/assets/52f29915-0247-47cb-b632-455ebe2107e8" />
 
-I wanted to then check the 21 variants that were reported under QUAL ≥20 criteria on IGV to check if any of them qualify to be a true variant. 
+A total of 21 variants were identified during variant calling. Since reporting every detected variant was unnecessary, variants were prioritized based on variant quality (QUAL), read depth (DP), alternate-allele support (DP4), mapping quality (MQ), and strand balance. Variants with higher confidence, adequate read support, high mapping quality, and alternate alleles supported on both sequencing strands were prioritized for downstream IGV validation. Variants located within repetitive homopolymer regions or showing limited/strand-biased read support were considered lower-confidence candidates. Based on these criteria, variants at positions 70289, 705013, 2844010, 4602509, and 4616669 were selected for detailed visualization in IGV because they showed relatively high QUAL scores, high mapping quality (MQ = 60), complete or strong alternate-allele support, and support from both forward and reverse reads. 
 
 ```bash
  { echo -e "CHROM\tPOS\tREF\tALT\tQUAL\tDP\tDP4\tMQ"; bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%QUAL\t%INFO/DP\t%INFO/DP4\t%INFO/MQ\n' variants.vcf | awk '$5 >= 20'; } > qual20_candidates.tsv
@@ -526,16 +526,6 @@ The variant at NC_000913.3:70289 (G>T) had a variant quality (QUAL) of 110.415 a
 
 **2. Variant two:**
 
-<img width="862" height="50" alt="image" src="https://github.com/user-attachments/assets/6dd526ce-bb99-43a4-a232-4f244d2287c7" />
-
-<img width="1900" height="963" alt="image" src="https://github.com/user-attachments/assets/0ec5d66d-2228-4acd-a0a3-e2218bf905d8" />
-
-The variant at NC_000913.3:578452 (TCCCCCC>TCCCCC) had a QUAL score of 28.32, read depth of 7, and mapping quality of 35. In IGV, the anchor position 578452 is covered by 7 reads. The deletion becomes visually evident at the adjacent position 578453, where 3 reads retain the reference C and 4 reads show a deletion. This is consistent with the VCF representation of the one-base deletion.
-The four deletion-supporting reads are observed on the forward strand, while the reference-supporting reads are present on both strands. The variant also occurs in a C-rich sequence context. So, The VCF call is consistent with the read-level evidence in IGV. However, the candidate has relatively low coverage and strand-biased alternate support in a C-rich sequence context, so it should be treated as a low-confidence candidate requiring further review.
-
-
-**3. Variant three:**
-
 <img width="863" height="50" alt="image" src="https://github.com/user-attachments/assets/7a93b0a0-a9d0-4350-9ebd-07e2d6c57748" />
 
 <img width="1907" height="992" alt="image" src="https://github.com/user-attachments/assets/94111319-f5e6-46ef-bc24-f2009a090919" />
@@ -543,13 +533,31 @@ The four deletion-supporting reads are observed on the forward strand, while the
 The variant at NC_000913.3:705013 (T>C) had a QUAL score of 115.415, read depth of 4, and mapping quality of 60. IGV inspection showed that all four reads covering the position supported the alternate C allele. The alternate allele was observed on both strands, with 3 forward-strand and 1 reverse-strand reads. No reads supporting the reference T allele were observed. The variant shows consistent read-level support with high mapping quality and representation on both strands. However, the low coverage (DP=4) limits confidence in the call. It was therefore considered a promising candidate requiring further validation. 
 
 
+**3. Variant three:**
+
+<img width="864" height="53" alt="image" src="https://github.com/user-attachments/assets/1e8b3374-6fb4-492c-b6c2-d6424bc853aa" />
+
+<img width="1917" height="989" alt="image" src="https://github.com/user-attachments/assets/db9347e2-d8bc-4136-9e83-17c8d1568319" />
+
+NC_000913.3:2,844,010 G>T. The variant was supported by all four reads covering the position (DP=4), with three forward-strand and one reverse-strand reads supporting the alternate T allele (DP4=0,0,3,1). The variant showed a high QUAL score of 99.42 and a mapping quality of 60, indicating good alignment quality. The variant was therefore selected for further validation using IGV.
+
 **4. Variant four:**
 
-<img width="864" height="51" alt="image" src="https://github.com/user-attachments/assets/32b9d337-7e3d-4ce1-b6cf-42f7c706d330" />
+<img width="859" height="49" alt="image" src="https://github.com/user-attachments/assets/7526e51a-779e-40c6-8f1b-31fe7e633276" />
 
-<img width="1902" height="963" alt="image" src="https://github.com/user-attachments/assets/0cf73ed9-eaff-4245-bf2d-9b1a6532b42c" />
+<img width="1896" height="967" alt="image" src="https://github.com/user-attachments/assets/5c9e106e-8b23-49a7-9eb9-6fd0f2ba2e51" />
 
-At position 925842, two reads were observed, both supporting the reference G at the anchor position. At position 925843, both reads showed a deletion, consistent with the 1-bp A deletion represented in the VCF (REF = GAAAAAAAA, ALT = GAAAAAAA). The supporting reads were balanced across forward and reverse strands (DP4 = 0,0,1,1), and the mapping quality was high (MQ = 58). However, the total read depth was only 2, making the variant weakly supported and requiring additional evidence/coverage for confident validation.
+NC_000913.3:4,602,509 C>T. The variant was supported by all four reads covering the position (DP=4), with three forward-strand and one reverse-strand reads supporting the alternate T allele (DP4=0,0,3,1). The variant showed a high QUAL score of 113.42 and a mapping quality of 60, indicating strong variant-calling and read-mapping evidence. Therefore, this variant was selected for further validation using IGV.
+
+**5. Variant five:**
+
+<img width="859" height="54" alt="image" src="https://github.com/user-attachments/assets/090fa41c-a24b-421b-b1b6-60370b604a19" />
+
+<img width="1900" height="966" alt="image" src="https://github.com/user-attachments/assets/c9e792ec-dd6f-47ef-9389-ba48d41eae86" />
+
+NC_000913.3:4,616,669 G>T. The variant showed the highest QUAL score among the prioritized candidates (QUAL=153.42) and was supported by all five reads covering the position (DP=5). The alternate T allele was supported by three forward-strand and two reverse-strand reads (DP4=0,0,3,2), indicating balanced strand support. The mapping quality was 60, indicating high-quality read alignment. This variant was therefore prioritized for IGV validation.
+
+
 
 
 
