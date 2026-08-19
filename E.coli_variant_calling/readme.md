@@ -514,8 +514,9 @@ A total of 21 variants were identified during variant calling. Since reporting e
 <img width="861" height="530" alt="image" src="https://github.com/user-attachments/assets/ee9656ff-fddc-4ab1-b855-15a94555c6f7" />
 
 
-I then checked the variants on IGV for the interpretation. 
-**1. The first variant:**
+I then checked the variants on IGV for the interpretation.     
+
+**1. Variant One:**
 
 <img width="860" height="54" alt="image" src="https://github.com/user-attachments/assets/489d3e6c-0c54-4ac2-ad14-4390e496e52d" />
 
