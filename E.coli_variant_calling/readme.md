@@ -113,6 +113,33 @@ samtools --version
 sudo apt install bcftools
 ```
 
+**snpEff Installation**
+```bash
+#To download miniconda first
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+```
+```bash
+bash Miniconda3-latest-Linux-x86_64.sh
+```
+```bash
+source ~/.bashrc
+```
+```bash
+conda --version
+```
+```bash
+#Basically created a environment in miniconda called snpeff and installed snpeff there
+conda create -n snpeff -c conda-forge -c bioconda snpeff
+```
+```bash
+#should see the environment you in
+conda activate snpeff
+```
+```bash
+ snpEff -version
+```
+<img width="623" height="51" alt="image" src="https://github.com/user-attachments/assets/5e3aca36-7d98-4d85-96a8-aaf362ba532a" />
+
 
 ## Data Visualization and Quality Control
 
@@ -557,6 +584,46 @@ NC_000913.3:4,602,509 C>T. The variant was supported by all four reads covering 
 <img width="1900" height="966" alt="image" src="https://github.com/user-attachments/assets/c9e792ec-dd6f-47ef-9389-ba48d41eae86" />
 
 NC_000913.3:4,616,669 G>T. The variant showed the highest QUAL score among the prioritized candidates (QUAL=153.42) and was supported by all five reads covering the position (DP=5). The alternate T allele was supported by three forward-strand and two reverse-strand reads (DP4=0,0,3,2), indicating balanced strand support. The mapping quality was 60, indicating high-quality read alignment. This variant was therefore prioritized for IGV validation.
+
+## Variant Annotation
+
+After variant calling, the identified variants were present in the VCF file as genomic coordinates and nucleotide changes. However, the VCF alone does not tell us whether a variant affects a gene, coding sequence, protein, or other genomic region. Therefore, SnpEff was used for variant annotation and functional-effect prediction. SnpEff compares each variant against the appropriate reference genome annotation and predicts its potential effect on genes and transcripts.  
+
+```bash
+#to check of our variants.vdf file is there or not
+ ls -lh ~/VC_E.coli
+```
+```bash
+#To check if we are seeing the correct reference file or not
+ grep '^##reference' ~/VC_E.coli/variants.vcf
+```
+
+<img width="1278" height="737" alt="image" src="https://github.com/user-attachments/assets/3c82392c-58fb-4bcb-88da-5c74db1094b1" />
+
+```bash
+#To check the snpEff databases
+snpEff databases | grep -i "Escherichia_coli" | grep -i "mg1655"
+```
+<img width="1901" height="422" alt="image" src="https://github.com/user-attachments/assets/9776ea93-9d91-4c12-87a1-c8139b5224d1" />
+
+The other commands I used for checking the snpEff database were:    
+snpEff databases | grep -i "NC_000913" | head -20    
+snpEff databases | grep -i "K12"    
+snpEff databases | grep -i "ASM584"    
+snpEff databases | grep -Ei 'Escherichia|coli|NC_000913|K-12|MG1655'    
+snpEff databases | grep -i ecoli    
+
+These commands did not fetch me the required results till the above mentioned command that did. Then Before functional annotation with snpEff, the chromosome identifier in the VCF was compared with that of the reference genome.    
+
+```bash
+grep -v "^#" ~/VC_E.coli/variants.vcf | head
+```
+```bash
+grep "^>" ~/VC_E.coli/GCF_000005845.2_ASM584v2_genomic.fna | head
+```
+<img width="1899" height="464" alt="image" src="https://github.com/user-attachments/assets/7e73a052-67db-4e0e-853b-93c2b9dcba9b" />
+
+
 
 
 
