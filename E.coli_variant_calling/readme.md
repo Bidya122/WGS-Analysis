@@ -712,6 +712,17 @@ BEGIN {
 }' candidates_21_annotated.vcf > candidates_21_annotation.tsv
 ```
 
+I added the DP4 values also for better comparision
+
+<img width="1587" height="584" alt="image" src="https://github.com/user-attachments/assets/a63d0d84-3f72-460f-b728-07d2538fe569" />
+
+Of the 21 candidate variants, 6 were predicted to be missense variants, 3 frameshift variants, 2 stop-gained variants, 1 synonymous variant, and 9 upstream-gene variants. Based on SnpEff's predicted impact categories, 5 variants were classified as HIGH impact, 6 as MODERATE, 1 as LOW, and 9 as MODIFIER. The HIGH-impact variants comprised three frameshift variants affecting rzpD, paaG, and elaD, and two stop-gained variants affecting hsdR and yjjP. The MODERATE-impact variants included missense substitutions in nagE, acnA, envZ, rhaD, btuB, and yjjI. 
+I do not say that the 5 variants are confirmed to be high impacts because SnpEff is performing computational effect prediction. Its documentation specifically cautions that impact categories are useful for prioritization but do not establish which variant is actually responsible for a phenotype.
+
+## Conclusion:
+Whole-genome sequencing reads were subjected to quality assessment, adapter/quality trimming, reference genome alignment, BAM processing, variant calling, quality-based filtering, and SnpEff-based variant annotation. A total of 21 candidate variants with QUAL ≥20 were identified and functionally annotated. However, the majority of these candidate variants were supported by low sequencing depth (approximately 2–7 reads), providing insufficient read-level evidence for confident variant confirmation. Therefore, the identified variants should be regarded as preliminary candidate variants rather than validated genomic variants. Higher sequencing depth and/or independent experimental validation would be required to confidently establish these variants.
+
+PS - This E. coli WGS analysis served as a practice workflow for understanding the fundamentals of variant discovery and annotation. The experience gained from quality control, alignment, variant calling, variant filtering, and SnpEff annotation will be extended to human WES data, where more stringent quality control, variant filtering, annotation, and interpretation will be performed.
 
 
 
